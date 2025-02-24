@@ -1,31 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { PostService } from '../post.service';
 
 @Component({
-    selector: 'app-post',
-    templateUrl: './post.component.html',
+  selector: 'app-post',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    <h2>Submit a Post</h2>
+    <input [(ngModel)]="title" placeholder="Title" />
+    <textarea [(ngModel)]="description" placeholder="Description"></textarea>
+    <button (click)="submitPost()">Submit</button>
+    <br />
+    <button (click)="goHome()">Go to Home</button>
+  `,
 })
-export class PostComponent implements OnInit {
-    title = '';
-    description = '';
-    posts: any[] = [];
+export class PostComponent {
+  title = '';
+  description = '';
+  postService = inject(PostService);
 
-    constructor(private postService: PostService) {}
+  submitPost() {
+    if (!this.title) return;
+    this.postService.submitPost({ title: this.title, description: this.description }).subscribe(() => {
+      this.title = '';
+      this.description = '';
+    });
+  }
 
-    ngOnInit() {
-        this.loadPosts();
-    }
-
-    submitPost() {
-        if (!this.title) return;
-        this.postService.submitPost({ title: this.title, description: this.description }).subscribe(() => {
-            this.title = '';
-            this.description = '';
-            this.loadPosts();
-        });
-    }
-
-    loadPosts() {
-        this.postService.getPosts().subscribe((data) => (this.posts = data));
-    }
+  goHome() {
+    window.location.href = '/';
+  }
 }
