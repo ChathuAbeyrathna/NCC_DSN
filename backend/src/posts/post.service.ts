@@ -7,8 +7,8 @@ import { Post } from './post.schema';
 export class PostsService {
     constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
 
-    async create(title: string, description: string): Promise<Post> {
-        const newPost = new this.postModel({ title, description });
+    async create(title: string, description: string, userType: string, institution: string, email: string, phone: string): Promise<Post> {
+        const newPost = new this.postModel({ title, description, userType, institution, email, phone });
         return newPost.save();
     }
 

@@ -1,0 +1,80 @@
+* {
+    font-family: 'Arial', sans-serif; /* Change to your preferred font */
+  } 
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 40px;
+    margin-bottom: 140px;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid #0066CC; /* Blue outline for the form */
+  }
+
+  .form-select {
+    color: gray; /* default color for placeholder */
+  }
+  
+  .form-select.selected {
+    color: black; /* color when a selection is made */
+  }
+  
+  
+  .form-group {
+    margin-bottom: 15px;
+    width: 100%; /* Ensure all form groups take full width */
+  }
+  
+  .form-input, .form-textarea, .form-select {
+    width: 100%; /* Ensure all inputs take full width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+  }
+  
+  .form-textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .form-button {
+    padding: 10px 20px;
+    background-color: #0066CC;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block; /* Make the button a block element */
+    margin: 0 auto; /* Center-align the button */
+    width: 100%; /* Make buttons take full width */
+    max-width: 200px; /* Limit button width for better appearance */
+  }
+  
+  .form-button.secondary {
+    background-color: #6c757d;
+    margin-left: 0; /* Remove left margin */
+    margin-top: 10px; /* Add top margin for spacing */
+  }
+  
+  .form-button:hover {
+    opacity: 0.9;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-top: 130px;
+    font-size: 30px;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center-align buttons */
+    gap: 10px; /* Add spacing between buttons */
+  }

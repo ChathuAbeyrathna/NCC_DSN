@@ -1,6 +1,9 @@
 export interface Post {
     title: string;
     description: string;
-    image?: string;
+    userType: string;
+    institution: string;
+    email: string;
+    phone: string;
   }
   
