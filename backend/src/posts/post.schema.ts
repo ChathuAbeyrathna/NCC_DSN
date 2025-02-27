@@ -6,7 +6,7 @@ export class Post extends Document {
     @Prop({ required: true })
     title: string;
 
-    @Prop()
+    @Prop({ required: true })
     description: string;
 
     @Prop({ required: true })
@@ -18,8 +18,11 @@ export class Post extends Document {
     @Prop({ required: true })
     email: string;
 
-    @Prop({ required: true })
+    @Prop()
     phone: string;
+
+    @Prop()
+    imageUrl: string;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

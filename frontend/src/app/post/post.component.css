@@ -39,7 +39,7 @@
   
   .form-textarea {
     resize: vertical;
-    height: 100px;
+    height: 120px;
   }
   
   .form-button {
@@ -77,4 +77,38 @@
     flex-direction: column; /* Stack buttons vertically */
     align-items: center; /* Center-align buttons */
     gap: 10px; /* Add spacing between buttons */
+  }
+
+  .file-upload-container {
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: white;
+    margin-bottom: 30px;
+  }
+  
+  .file-upload-container:hover {
+    border: 2px solid black;
+  }
+  
+  .image-icon img {
+    width: 35px; /* Adjust size as needed */
+    height: 35px; /* Adjust size as needed */
+    margin-bottom: 5px;
+  }
+  
+  .file-upload-label {
+    display: block;
+    cursor: pointer;
+  }
+  
+  .file-upload-input {
+    display: none; /* Hide the default file input */
+  }
+  
+  .placeholder-text {
+    color: #888;
+    font-size: 14px;
   }

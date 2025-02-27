@@ -3,6 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PostService } from '../post.service';
 import { NavbarComponent } from '../navbar.component'; 
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { initializeApp } from "firebase/app";
+import { environment } from '../../environment';
+
+initializeApp(environment.firebase);
 
 @Component({
   selector: 'app-post',
@@ -42,6 +47,19 @@ import { NavbarComponent } from '../navbar.component';
         <div class="form-group">
           <textarea [(ngModel)]="description" placeholder="Describe the Problem" class="form-textarea"></textarea>
         </div>
+        <div class="file-upload-container">
+          <!-- Image Icon -->
+          <div class="image-icon">
+            <img src="upload.png" alt="Upload Icon" />
+          </div>
+          <!-- File Input with Custom Placeholder -->
+          <label for="file-upload" class="file-upload-label">
+            <span class="placeholder-text">
+              {{ imageFile ? imageFile.name : 'Upload Screenshot for Visual Evidence (Optional)' }}
+            </span>
+            <input type="file" id="file-upload" class="file-upload-input" (change)="handleFileInput($event)" />
+          </label>
+        </div>
         <div class="button-group">
           <button (click)="submitPost()" class="form-button">Submit</button>
         </div>
@@ -58,10 +76,15 @@ export class PostComponent {
   institution = '';
   email = '';
   phone = '';
+  imageFile: File | null = null;
   postService = inject(PostService);
 
-  submitPost() {
-    if (!this.title || !this.email || !this.phone) {
+  handleFileInput(event: any) {
+    this.imageFile = event.target.files[0];
+  }
+
+  async submitPost() {
+    if (!this.title || !this.email || !this.phone || !this.description || !this.userType || !this.institution) {
       alert('Please fill in all required fields');
       return;
     }
@@ -79,6 +102,14 @@ export class PostComponent {
       alert('Please enter a valid 10-digit phone number');
       return;
     }
+
+    let imageUrl = '';
+    if (this.imageFile) {
+      const storage = getStorage();
+      const storageRef = ref(storage, `ncc-dsn/${this.imageFile.name}`);
+      const snapshot = await uploadBytes(storageRef, this.imageFile);
+      imageUrl = await getDownloadURL(snapshot.ref);
+    }
   
     const post = {
       title: this.title,
@@ -87,6 +118,7 @@ export class PostComponent {
       institution: this.institution,
       email: this.email,
       phone: this.phone,
+      imageUrl: imageUrl
     };
     this.postService.submitPost(post).subscribe(() => {
       this.title = '';
@@ -95,6 +127,7 @@ export class PostComponent {
       this.institution = '';
       this.email = '';
       this.phone = '';
+      this.imageFile = null;
     });
   }
 
