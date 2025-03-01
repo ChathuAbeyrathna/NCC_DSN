@@ -1,5 +1,5 @@
 * {
-    font-family: 'Arial', sans-serif; /* Change to your preferred font */
+    font-family: 'Arial', sans-serif; 
   } 
 
 .form-container {
@@ -11,30 +11,30 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 2px solid #0066CC; /* Blue outline for the form */
+    border: 2px solid #0066CC;
   }
 
   .form-select {
-    color: gray; /* default color for placeholder */
+    color: gray; 
   }
   
   .form-select.selected {
-    color: black; /* color when a selection is made */
+    color: black; 
   }
   
   
   .form-group {
     margin-bottom: 15px;
-    width: 100%; /* Ensure all form groups take full width */
+    width: 100%; 
   }
   
   .form-input, .form-textarea, .form-select {
-    width: 100%; /* Ensure all inputs take full width */
+    width: 100%; 
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    box-sizing: border-box; /* Ensure padding and border are included in the width */
+    box-sizing: border-box; 
   }
   
   .form-textarea {
@@ -58,8 +58,8 @@
   
   .form-button.secondary {
     background-color: #6c757d;
-    margin-left: 0; /* Remove left margin */
-    margin-top: 10px; /* Add top margin for spacing */
+    margin-left: 0; 
+    margin-top: 10px; 
   }
   
   .form-button:hover {
@@ -111,4 +111,77 @@
   .placeholder-text {
     color: #888;
     font-size: 14px;
+  }
+
+  .success-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff; 
+    border: 1px solid #0066CC; 
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 20px;
+    color: #000000; 
+    font-size: 16px;
+  }
+  
+  .success-icon {
+    margin-right: 12px;
+  }
+  
+  .success-icon img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .success-text {
+    font-weight: bold;
+  }
+
+  @media (max-width: 480px) {
+    .form-container {
+      padding: 15px;
+      margin-top: 10px;
+      margin-bottom: 60px;
+    }
+  
+    h2 {
+      margin-top: 110px;
+      font-size: 20px;
+    }
+  
+    .form-input, .form-textarea, .form-select {
+      font-size: 12px;
+      padding: 8px;
+    }
+  
+    .form-button {
+      font-size: 12px;
+      max-width: 120px;
+      padding: 8px 15px;
+    }
+  
+    .file-upload-container {
+      padding: 6px;
+    }
+  
+    .image-icon img {
+      width: 25px;
+      height: 25px;
+    }
+  
+    .placeholder-text {
+      font-size: 10px;
+    }
+  
+    .success-message {
+      padding: 10px;
+      font-size: 12px;
+    }
+  
+    .success-icon img {
+      width: 18px;
+      height: 18px;
+    }
   }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NavbarComponent } from './navbar.component'; 
+import { NavbarComponent } from './navbar.component';
 
 @Component({
   selector: 'app-home',
@@ -35,9 +35,14 @@ import { NavbarComponent } from './navbar.component';
           <button class="box-button" (click)="navigateToPost()">Report</button>
         </div>
       </div>
+      <!-- Footer Section -->
+      <div class="footer">
+        <img src="climatesl.png" alt="Climatesl Logo" class="footer-logo">
+        <p>Engineered by Climatesl</p>
+      </div>
     </div>
   `,
-  styles: [`
+ styles: [`
     /* General Styles */
     .container {
       font-family: Arial, sans-serif;
@@ -47,7 +52,7 @@ import { NavbarComponent } from './navbar.component';
 
     /* Hero Section */
     .hero-section {
-      background-image: url('../assets/homeBg.png'); /* Path to your local image */
+      background-image: url('../assets/homeBg.png'); 
       background-position: center;
       background-size: cover;
       height: 650px;
@@ -58,9 +63,7 @@ import { NavbarComponent } from './navbar.component';
       text-align: center;
       width: 100%;
       padding: 1rem 2rem;
-      position: fix /* Changed from absolute to fixed to keep the navbar at the top */
-      width: 100%;
-      
+      position: fix;
     }
 
     .hero-overlay {
@@ -69,7 +72,7 @@ import { NavbarComponent } from './navbar.component';
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+      background-color: rgba(0, 0, 0, 0.5); 
     }
 
     .hero-text {
@@ -88,10 +91,10 @@ import { NavbarComponent } from './navbar.component';
       flex-direction: column;
       gap: 3rem;
       padding: 2rem;
-      justify-content: center; /* Centers the boxes horizontally */
+      justify-content: center; 
       align-items: center;
       margin-top: 40px;
-      margin-bottom: 40px
+      margin-bottom: 40px;
     }
 
     .box {
@@ -128,7 +131,7 @@ import { NavbarComponent } from './navbar.component';
     }
 
     .box-button:hover {
-      background-color:rgb(44, 58, 80);
+      background-color: rgb(44, 58, 80);
     }
 
     /* Scroll Down Button */
@@ -170,6 +173,92 @@ import { NavbarComponent } from './navbar.component';
       }
       60% {
         transform: translateY(-5px);
+      }
+    }
+
+    /* Footer Section */
+    .footer {
+      background-color: #18202C;
+      color: white;
+      text-align: left;
+      padding: 1.5rem;
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      gap: 10px;
+    }
+
+    .footer-logo {
+      height: 50px; /* Adjust the height as needed */
+      width: auto;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 1200px) {
+      .box {
+        width: 90%; 
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-text {
+        font-size: 2rem; 
+        line-height: 1.5;
+      }
+
+      .box {
+        width: 100%; 
+        padding: 1.5rem;
+      }
+
+      .box-title {
+        font-size: 1.5rem;
+      }
+
+      .box-description {
+        font-size: 1.1rem;
+      }
+
+      .box-button {
+        width: 120px;
+        font-size: 0.9rem;
+      }
+
+      .footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .footer-logo {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-text {
+        font-size: 1.5rem; /* Even smaller font size for mobile */
+        line-height: 2;
+        margin-right: 55px;
+      }
+
+      .box {
+        padding: 1rem;
+      }
+
+      .box-title {
+        font-size: 1.2rem;
+      }
+
+      .box-description {
+        font-size: 1rem;
+      }
+
+      .box-button {
+        width: 100px;
+        font-size: 0.8rem;
       }
     }
   `]

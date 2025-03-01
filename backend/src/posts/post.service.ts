@@ -36,7 +36,7 @@ export class PostsService {
             attachments: [
                 {
                     filename: 'problem image.jpg', // Customize the filename
-                    path: post.imageUrl, // Ensure imageUrl is a valid accessible path or URL
+                    path: post.imageUrl, 
                 },
             ],
         };

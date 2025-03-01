@@ -31,7 +31,7 @@ import { NavbarComponent } from './navbar.component';
 
   styles: [`
     * {
-    font-family: 'Arial', sans-serif; /* Change to your preferred font */
+      font-family: 'Arial', sans-serif; 
     }  
 
     .manual-container {
@@ -56,7 +56,7 @@ import { NavbarComponent } from './navbar.component';
     .box-container {
       display: flex;
       justify-content: space-between;
-      gap: 60px; /* Space between the two boxes */
+      gap: 60px; 
       margin-top: 60px;
     }
 
@@ -64,9 +64,9 @@ import { NavbarComponent } from './navbar.component';
       background-color: #fff;
       border-radius: 8px;
       padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increased shadow */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
       text-align: center;
-      flex: 1; /* Makes both boxes equal width */
+      flex: 1; 
       background-color: #F3F0F0;
       display: flex;
       flex-direction: column;
@@ -102,9 +102,86 @@ import { NavbarComponent } from './navbar.component';
     }
 
     .view-button:hover {
-      background-color:rgb(5, 51, 96);
+      background-color: rgb(5, 51, 96);
     }
 
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+      .manual-container {
+        padding: 10px;
+      }
+
+      .main-title {
+        font-size: 24px;
+        margin-bottom: 30px;
+        margin-top: 40px;
+      }
+
+      .description {
+        font-size: 18px;
+      }
+
+      .box-container {
+        flex-direction: column; /* Stack boxes vertically */
+        gap: 30px; 
+        margin-top: 30px;
+      }
+
+      .manual-box {
+        padding: 15px;
+      }
+
+      .box-heading {
+        font-size: 18px;
+        margin-top: 15px;
+      }
+
+      .box-subheading {
+        font-size: 16px;
+        margin-bottom: 30px;
+      }
+
+      .view-button {
+        width: 130px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-title {
+        font-size: 20px;
+        margin-bottom: 5px;
+        margin-top: 60px;
+      }
+
+      .description {
+        font-size: 16px;
+      }
+
+      .box-container {
+        gap: 20px; /* Further reduce gap between boxes */
+        margin-top: 20px;
+      }
+
+      .manual-box {
+        padding: 10px;
+      }
+
+      .box-heading {
+        font-size: 16px;
+        margin-top: 10px;
+      }
+
+      .box-subheading {
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      .view-button {
+        width: 120px;
+        font-size: 12px;
+      }
+    }
   `]
 })
 export class ManualPageComponent {

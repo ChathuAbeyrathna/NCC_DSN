@@ -24,8 +24,8 @@ initializeApp(environment.firebase);
         <div class="form-group">
           <select [(ngModel)]="userType" class="form-select" [ngClass]="{'selected': userType}">
             <option value="" disabled selected>User Type</option>
-            <option value="individual">Individual</option>
-            <option value="organization">Organization</option>
+            <option value="individual">User Type 1</option>
+            <option value="organization">User Type 1</option>
           </select>
         </div>
         <div class="form-group">
@@ -48,12 +48,12 @@ initializeApp(environment.firebase);
           <textarea [(ngModel)]="description" placeholder="Describe the Problem" class="form-textarea"></textarea>
         </div>
         <div class="file-upload-container">
-          <!-- Image Icon -->
-          <div class="image-icon">
-            <img src="upload.png" alt="Upload Icon" />
-          </div>
           <!-- File Input with Custom Placeholder -->
           <label for="file-upload" class="file-upload-label">
+            <!-- Image Icon -->
+            <div class="image-icon">
+              <img src="upload.png" alt="Upload Icon" />
+            </div>
             <span class="placeholder-text">
               {{ imageFile ? imageFile.name : 'Upload Screenshot for Visual Evidence (Optional)' }}
             </span>
@@ -61,7 +61,17 @@ initializeApp(environment.firebase);
           </label>
         </div>
         <div class="button-group">
-          <button (click)="submitPost()" class="form-button">Submit</button>
+          <button (click)="submitPost()" [disabled]="loading" class="form-button">
+            {{ loading ? 'Submitting...' : 'Submit' }}
+          </button>
+        </div>
+        <div *ngIf="successMessage" class="success-message">
+          <div class="success-icon">
+            <img src="checkmark.png" alt="Success Icon" />
+          </div>
+          <div class="success-text">
+            {{ successMessage }}
+          </div>
         </div>
       </div>
     </div>
@@ -77,6 +87,8 @@ export class PostComponent {
   email = '';
   phone = '';
   imageFile: File | null = null;
+  loading = false;
+  successMessage = '';
   postService = inject(PostService);
 
   handleFileInput(event: any) {
@@ -103,6 +115,8 @@ export class PostComponent {
       return;
     }
 
+    this.loading = true;
+
     let imageUrl = '';
     if (this.imageFile) {
       const storage = getStorage();
@@ -128,6 +142,8 @@ export class PostComponent {
       this.email = '';
       this.phone = '';
       this.imageFile = null;
+      this.loading = false;
+      this.successMessage = 'Thank you! Your issue has been reported successfully. Our team will review it soon.';
     });
   }
 

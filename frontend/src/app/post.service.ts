@@ -9,6 +9,7 @@ interface Post {
   institution: string;
   email: string;
   phone: string;
+  imageUrl?: string;
 }
 
 @Injectable({
