@@ -52,9 +52,10 @@ import { NavbarComponent } from './navbar.component';
 
     /* Hero Section */
     .hero-section {
-      background-image: url('../assets/home.png'); 
+      background-image: url('../assets/homeBg.png'); 
       background-position: center;
       background-size: cover;
+      background-repeat: no-repeat;
       height: 660px;
       display: flex;
       justify-content: center;
@@ -72,7 +73,7 @@ import { NavbarComponent } from './navbar.component';
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); 
+      background-color: rgba(0, 0, 0, 0.6); 
     }
 
     .hero-text {
@@ -83,6 +84,7 @@ import { NavbarComponent } from './navbar.component';
       z-index: 1; /* Ensure text is above the overlay */
       line-height: 2;
       margin-top: 70px;
+      margin-right: 60px;
     }
 
     /* Boxes Section */
@@ -241,7 +243,6 @@ import { NavbarComponent } from './navbar.component';
       .hero-text {
         font-size: 1.5rem; /* Even smaller font size for mobile */
         line-height: 2;
-        margin-right: 55px;
       }
 
       .box {
@@ -261,6 +262,8 @@ import { NavbarComponent } from './navbar.component';
         font-size: 0.8rem;
       }
     }
+
+   
   `]
 })
 export class HomeComponent {
