@@ -52,10 +52,10 @@ import { NavbarComponent } from './navbar.component';
 
     /* Hero Section */
     .hero-section {
-      background-image: url('../assets/homeBg.png'); 
+      background-image: url('../assets/home.png'); 
       background-position: center;
       background-size: cover;
-      height: 650px;
+      height: 660px;
       display: flex;
       justify-content: center;
       align-items: center;

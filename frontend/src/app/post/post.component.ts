@@ -92,8 +92,20 @@ export class PostComponent {
   postService = inject(PostService);
 
   handleFileInput(event: any) {
-    this.imageFile = event.target.files[0];
+    const file = event.target.files[0];
+  
+    if (file) {
+      const maxSize = 2 * 1024 * 1024; // 2MB
+  
+      if (file.size > maxSize) {
+        alert('File size exceeds 2MB. Please upload a smaller file.');
+        return;
+      }
+  
+      this.imageFile = file; // Store the valid file
+    }
   }
+  
 
   async submitPost() {
     if (!this.title || !this.email || !this.phone || !this.description || !this.userType || !this.institution) {
@@ -120,7 +132,7 @@ export class PostComponent {
     let imageUrl = '';
     if (this.imageFile) {
       const storage = getStorage();
-      const storageRef = ref(storage, `ncc-dsn/${this.imageFile.name}`);
+      const storageRef = ref(storage, `ncc-dsn/${this.imageFile.name}`); //change firebase store folder name
       const snapshot = await uploadBytes(storageRef, this.imageFile);
       imageUrl = await getDownloadURL(snapshot.ref);
     }

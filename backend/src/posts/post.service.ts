@@ -23,14 +23,14 @@ export class PostsService {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'chathurya.abeyrathna@aiesec.net', // Replace with your email
-                pass: 'zjwj rocr sbpo hthr', // Replace with your email password or app password
+                user: 'testsender@gmail.com', // Replace with your email
+                pass: 'password', // Replace with your email password or app password
             },
         });
 
         const mailOptions = {
-            from: 'chathurya.abeyrathna@aiesec.net',
-            to: ['umalikaabeyrathne@gmail.com', 'mrcdabey@gmail.com', 'abeyrathnamrcd.21@uom.lk'], // Replace with the three recipient emails
+            from: 'testsender@gmail.com',
+            to: ['testreceiver1@gmail.com', 'testreceiver2@gmail.com', 'testreceiver3@gmail.com'], // Replace with the three recipient emails
             subject: `New Problem Reported: ${post.title}`,
             text: `A new issue has been submitted:\n\nTitle: ${post.title}\nDescription: ${post.description}\nUser Type: ${post.userType}\nInstitution: ${post.institution}\nEmail: ${post.email}\nPhone: ${post.phone}`,
             attachments: [
