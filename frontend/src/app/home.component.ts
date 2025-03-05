@@ -14,7 +14,10 @@ import { NavbarComponent } from './navbar.component';
       <div class="hero-section">
         <div class="hero-overlay"></div>
         <div class="hero-text">
-          National Climate Change Data Sharing <br> Network Sri Lanka - NCC DSN <br>
+          NCC DSN - Help Desk <br>
+          <div class="hero-text2">
+          National Climate Change Data Sharing Network Sri Lanka <br>
+          </div>
           <!-- Scroll Down Button -->
           <button class="scroll-down-button" (click)="scrollDown()">
             <span class="arrow-down"></span>
@@ -25,14 +28,14 @@ import { NavbarComponent } from './navbar.component';
       <!-- Boxes Section -->
       <div class="box-container">
         <div class="box">
-          <h2 class="box-title">User Manuals</h2>
-          <p class="box-description">Explore our user manuals. These guides help ensure a smooth experience <br> while managing climate change data.</p>
-          <button class="box-button" (click)="navigateToManual()">View</button>
-        </div>
-        <div class="box">
           <h2 class="box-title">Report a Problem</h2>
           <p class="box-description">Facing a problem while using the website? Click below to report it, and our <br> team will review your concern to improve your experience!</p>
           <button class="box-button" (click)="navigateToPost()">Report</button>
+        </div>
+        <div class="box">
+          <h2 class="box-title">User Manuals</h2>
+          <p class="box-description">Explore our user manuals. These guides help ensure a smooth experience <br> while managing climate change data.</p>
+          <button class="box-button" (click)="navigateToManual()">View</button>
         </div>
       </div>
       <!-- Footer Section -->
@@ -52,7 +55,7 @@ import { NavbarComponent } from './navbar.component';
 
     /* Hero Section */
     .hero-section {
-      background-image: url('../assets/homeBg.png'); 
+      background-image: url('../assets/2.png'); 
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
@@ -77,7 +80,7 @@ import { NavbarComponent } from './navbar.component';
     }
 
     .hero-text {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: bold;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
       position: relative;
@@ -85,6 +88,14 @@ import { NavbarComponent } from './navbar.component';
       line-height: 2;
       margin-top: 70px;
       margin-right: 60px;
+    }
+
+    .hero-text2 {
+      font-size: 2.5rem;
+      font-weight: lighter;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      position: relative;
+      z-index: 1; /* Ensure text is above the overlay */
     }
 
     /* Boxes Section */
@@ -206,6 +217,11 @@ import { NavbarComponent } from './navbar.component';
 
     @media (max-width: 768px) {
       .hero-text {
+        font-size: 2.5rem; 
+        line-height: 1.5;
+      }
+
+      .hero-text2 {
         font-size: 2rem; 
         line-height: 1.5;
       }
@@ -241,6 +257,11 @@ import { NavbarComponent } from './navbar.component';
 
     @media (max-width: 600px) {
       .hero-text {
+        font-size: 2rem; /* Even smaller font size for mobile */
+        line-height: 2;
+      }
+
+      .hero-text2 {
         font-size: 1.5rem; /* Even smaller font size for mobile */
         line-height: 2;
       }
