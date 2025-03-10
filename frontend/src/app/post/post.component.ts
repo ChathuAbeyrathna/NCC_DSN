@@ -24,8 +24,8 @@ initializeApp(environment.firebase);
         <div class="form-group">
           <select [(ngModel)]="userType" class="form-select" [ngClass]="{'selected': userType}">
             <option value="" disabled selected>User Type</option>
-            <option value="individual">User Type 1</option>
-            <option value="organization">User Type 1</option>
+            <option value="User Type 1">User Type 1</option>
+            <option value="User Type 2">User Type 2</option>
           </select>
         </div>
         <div class="form-group">
@@ -80,12 +80,12 @@ initializeApp(environment.firebase);
   styleUrls: ['./post.component.css']
 })
 export class PostComponent {
-  title = '';
-  description = '';
   userType = '';
   institution = '';
   email = '';
   phone = '';
+  title = '';
+  description = '';
   imageFile: File | null = null;
   loading = false;
   successMessage = '';
@@ -138,21 +138,21 @@ export class PostComponent {
     }
   
     const post = {
-      title: this.title,
-      description: this.description,
       userType: this.userType,
       institution: this.institution,
       email: this.email,
       phone: this.phone,
+      title: this.title,
+      description: this.description,
       imageUrl: imageUrl
     };
     this.postService.submitPost(post).subscribe(() => {
-      this.title = '';
-      this.description = '';
       this.userType = '';
       this.institution = '';
       this.email = '';
       this.phone = '';
+      this.title = '';
+      this.description = '';
       this.imageFile = null;
       this.loading = false;
       this.successMessage = 'Thank you! Your issue has been reported successfully. Our team will review it soon.';
