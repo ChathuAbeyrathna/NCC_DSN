@@ -15,23 +15,31 @@ import { NavComponent } from './nav.component';
         
         <h2>Reported Problems</h2>
 
-        <div class="button-container">
-        <button class="nav-button" (click)="navigateToReports()">Reported Problem List</button>
+        <div class="navbutton-container">
+            <button class="nav-button" (click)="navigateToReports()">Reported Problem List</button>
         </div>
 
         <h2>Support Team</h2>
-        <button (click)="toggleForm()">Add Members</button>
+        <div class="button-container">
+            <button class="addmem-btn" (click)="toggleForm()">Add Members</button>
+        </div>
 
         <!-- Full-Screen Modal -->
         <div class="modal-page" *ngIf="showForm">
             <div class="modal-container">
-                <h2>Add New Admin</h2>
-                <input type="text" [(ngModel)]="newName" placeholder="Admin Name">
-                <input type="email" [(ngModel)]="newEmail" placeholder="Admin Email">
-                <div class="btn-group">
-                    <button (click)="addAdmin()">Submit</button>
-                    <button class="close-btn" (click)="toggleForm()">Close</button>
+                <div class="modal-header">
+                    <h2>Add Members</h2>
+                    <span class="close-btn" (click)="toggleForm()">X</span>
                 </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" [(ngModel)]="newName">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" [(ngModel)]="newEmail">
+                </div>
+                <button class="add-btn" (click)="addAdmin()">Add</button>
             </div>
         </div>
 
@@ -49,12 +57,16 @@ import { NavComponent } from './nav.component';
                     <td>{{ admin.name }}</td>
                     <td>{{ admin.email }}</td>
                     <td>
-                        <button (click)="removeAdmin(admin.email)">Remove</button>
+                        <button class="edit-btn">
+                            <img src="edit.png" alt="Edit">
+                        </button>
+                        <button class="remove-btn" (click)="removeAdmin(admin.email)">
+                            <img src="remove.png" alt="Remove">
+                        </button>
                     </td>
                 </tr>
             </tbody>
         </table>
-
         </div>
 
     </div>

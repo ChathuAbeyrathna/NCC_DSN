@@ -79,7 +79,7 @@ import { NavComponent } from './nav.component';
     }
 
     .download-btn {
-      background-color: #007bff;
+      background-color: #0066CC;
       color: white;
       border: none;
       padding: 10px 15px;
@@ -106,12 +106,13 @@ import { NavComponent } from './nav.component';
     }
 
     th {
-      background-color: #007bff;
+      background-color:rgba(0, 102, 204, 0.59);
       color: white;
+      padding: 20px 10px;
     }
 
     .image-link {
-      color: #007bff;
+      color: #0066CC;
       text-decoration: none;
       font-weight: bold;
       cursor: pointer;
