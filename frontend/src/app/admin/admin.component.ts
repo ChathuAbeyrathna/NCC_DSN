@@ -21,15 +21,15 @@ import { NavComponent } from './nav.component';
 
         <h2>Support Team</h2>
         <div class="button-container">
-            <button class="addmem-btn" (click)="toggleForm()">Add Members</button>
+            <button class="addmem-btn" (click)="openModal(false)">Add Members</button>
         </div>
 
         <!-- Full-Screen Modal -->
         <div class="modal-page" *ngIf="showForm">
             <div class="modal-container">
                 <div class="modal-header">
-                    <h2>Add Members</h2>
-                    <span class="close-btn" (click)="toggleForm()">X</span>
+                    <h2>{{ isEditing ? 'Edit Member' : 'Add Members' }}</h2>
+                    <span class="close-btn" (click)="closeModal()">X</span>
                 </div>
                 <div class="form-group">
                     <label>Name</label>
@@ -39,7 +39,9 @@ import { NavComponent } from './nav.component';
                     <label>Email</label>
                     <input type="email" [(ngModel)]="newEmail">
                 </div>
-                <button class="add-btn" (click)="addAdmin()">Add</button>
+                <button class="add-btn" (click)="isEditing ? updateAdmin() : addAdmin()">
+                    {{ isEditing ? 'Update' : 'Add' }}
+                </button>
             </div>
         </div>
 
@@ -57,7 +59,7 @@ import { NavComponent } from './nav.component';
                     <td>{{ admin.name }}</td>
                     <td>{{ admin.email }}</td>
                     <td>
-                        <button class="edit-btn">
+                        <button class="edit-btn" (click)="openModal(true, admin)">
                             <img src="edit.png" alt="Edit">
                         </button>
                         <button class="remove-btn" (click)="removeAdmin(admin.email)">
@@ -78,6 +80,8 @@ export class AdminComponent implements OnInit {
     newName = '';
     newEmail = '';
     showForm = false;
+    isEditing = false;
+    editingEmail = '';
 
     constructor(private adminService: AdminService, private router: Router) {}
 
@@ -89,17 +93,39 @@ export class AdminComponent implements OnInit {
         this.adminService.getAdmins().subscribe(data => this.admins = data);
     }
 
-    toggleForm() {
-        this.showForm = !this.showForm;
+    openModal(editing: boolean, admin: any = null) {
+        this.isEditing = editing;
+        this.showForm = true;
+
+        if (editing && admin) {
+            this.newName = admin.name;
+            this.newEmail = admin.email;
+            this.editingEmail = admin.email;
+        } else {
+            this.newName = '';
+            this.newEmail = '';
+            this.editingEmail = '';
+        }
+    }
+
+    closeModal() {
+        this.showForm = false;
+        this.isEditing = false;
     }
 
     addAdmin() {
         if (!this.newName || !this.newEmail) return;
         this.adminService.addAdmin(this.newName, this.newEmail).subscribe(() => {
             this.loadAdmins();
-            this.newName = '';
-            this.newEmail = '';
-            this.showForm = false;
+            this.closeModal();
+        });
+    }
+
+    updateAdmin() {
+        if (!this.newName || !this.newEmail || !this.editingEmail) return;
+        this.adminService.updateAdmin(this.editingEmail, this.newName, this.newEmail).subscribe(() => {
+            this.loadAdmins();
+            this.closeModal();
         });
     }
 

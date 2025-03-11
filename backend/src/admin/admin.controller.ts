@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Post, Get, Delete, Put, Body, Param, NotFoundException } from '@nestjs/common';
 import { AdminService } from './admin.service';
 
 @Controller('admins') // Base route for this controller
@@ -21,5 +21,11 @@ export class AdminController {
     @Delete('remove/:email') // DELETE /admins/remove/:email
     async removeAdmin(@Param('email') email: string) {
         return this.adminService.removeAdmin(email);
+    }
+
+    // Update admin details
+    @Put('update/:email') // PUT /admins/update/:email
+    async updateAdmin(@Param('email') email: string, @Body() { name, newEmail }: { name: string; newEmail: string }) {
+        return this.adminService.updateAdmin(email, name, newEmail);
     }
 }

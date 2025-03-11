@@ -89,7 +89,7 @@ import { NavComponent } from './nav.component';
     }
 
     .download-btn:hover {
-      background-color: #0056b3;
+      background-color:rgb(1, 59, 121);
     }
 
     table {
@@ -106,9 +106,10 @@ import { NavComponent } from './nav.component';
     }
 
     th {
-      background-color:rgba(0, 102, 204, 0.59);
+      background-color:rgba(0, 102, 204, 0.49);
       color: white;
       padding: 20px 10px;
+      text-align: center;
     }
 
     .image-link {
