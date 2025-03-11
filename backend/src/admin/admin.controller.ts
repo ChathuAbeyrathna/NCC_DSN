@@ -24,8 +24,11 @@ export class AdminController {
     }
 
     // Update admin details
-    @Put('update/:email') // PUT /admins/update/:email
-    async updateAdmin(@Param('email') email: string, @Body() { name, newEmail }: { name: string; newEmail: string }) {
+    @Put('update/:email')
+    async updateAdmin(
+        @Param('email') email: string,
+        @Body() { name, newEmail }: { name: string; newEmail: string }
+    ) {
         return this.adminService.updateAdmin(email, name, newEmail);
     }
 }

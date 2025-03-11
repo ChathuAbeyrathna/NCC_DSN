@@ -19,9 +19,9 @@ export class AdminService {
         return this.http.post(`${this.apiUrl}/add`, { name, email });  // Corrected URL
     }
 
-    updateAdmin(email: string, name: string, newEmail: string) {
-        return this.http.put(`/admins/update/${email}`, { name, newEmail });
-    }    
+    updateAdmin(email: string, admin: { name: string; newEmail: string }) {
+        return this.http.put(`${this.apiUrl}/update/${email}`, admin);
+    }       
 
     // Remove an admin by email
     removeAdmin(email: string) {

@@ -100,7 +100,7 @@ export class AdminComponent implements OnInit {
         if (editing && admin) {
             this.newName = admin.name;
             this.newEmail = admin.email;
-            this.editingEmail = admin.email;
+            this.editingEmail = admin.email; // Store original email for updating
         } else {
             this.newName = '';
             this.newEmail = '';
@@ -123,10 +123,11 @@ export class AdminComponent implements OnInit {
 
     updateAdmin() {
         if (!this.newName || !this.newEmail || !this.editingEmail) return;
-        this.adminService.updateAdmin(this.editingEmail, this.newName, this.newEmail).subscribe(() => {
-            this.loadAdmins();
-            this.closeModal();
-        });
+        this.adminService.updateAdmin(this.editingEmail, { name: this.newName, newEmail: this.newEmail })
+            .subscribe(() => {
+                this.loadAdmins();
+                this.closeModal();
+            });
     }
 
     removeAdmin(email: string) {

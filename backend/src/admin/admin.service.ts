@@ -35,6 +35,7 @@ export class AdminService {
     // Update admin details
     async updateAdmin(email: string, name: string, newEmail: string) {
         const admin = await this.adminModel.findOne({ email });
+
         if (!admin) {
             throw new NotFoundException('Admin not found');
         }
