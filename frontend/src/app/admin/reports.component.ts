@@ -192,10 +192,40 @@ export class ReportsComponent implements OnInit {
   }
 
   downloadReport() {
-    // Use xlsx library to create a properly formatted Excel file
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.reports);
+    const formattedReports = this.reports.map(report => ({
+      "User Type": report.userType,
+      "Institution": report.institution,
+      "Email": report.email,
+      "Phone": report.phone,
+      "Title": report.title,
+      "Description": report.description,
+      "Image": report.imageUrl ? "Available" : "No Image"
+    }));
+  
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(formattedReports);
+  
+    // Apply styles to headers
+    const headerRange = XLSX.utils.decode_range(ws["!ref"]!);
+    for (let C = headerRange.s.c; C <= headerRange.e.c; ++C) {
+      const cellRef = XLSX.utils.encode_cell({ r: 0, c: C });
+      if (!ws[cellRef]) continue;
+      ws[cellRef].s = { font: { bold: true }, fill: { fgColor: { rgb: "DCE6F1" } } };
+    }
+  
+    // Auto-adjust column width
+    ws["!cols"] = [
+      { wch: 15 }, // User Type
+      { wch: 20 }, // Institution
+      { wch: 25 }, // Email
+      { wch: 15 }, // Phone
+      { wch: 30 }, // Title
+      { wch: 40 }, // Description
+      { wch: 12 }  // Image
+    ];
+  
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Reported Issues');
     XLSX.writeFile(wb, 'Reported_Issues.xlsx');
   }
+  
 }
