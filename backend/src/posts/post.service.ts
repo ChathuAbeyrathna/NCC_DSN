@@ -19,8 +19,15 @@ export class PostsService {
         return savedPost;
     }
 
-    async findAll(): Promise<Post[]> {
-        return this.postModel.find().exec();
+    async findAll(startDate?: Date, endDate?: Date): Promise<Post[]> {
+        const query: any = {};
+        if (startDate && endDate) {
+            query.createdAt = {
+                $gte: startDate,
+                $lte: endDate,
+            };
+        }
+        return this.postModel.find(query).exec();
     }
 
     private async sendEmailNotification(post: Post) {
@@ -35,13 +42,13 @@ export class PostsService {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'senderemail@gmail.com', // Replace with your email
+                user: 'testsenderemail@gmail.com', // Replace with your email
                 pass: 'password', // Replace with your email password or app password
             },
         });
 
         const mailOptions: any = {
-            from: 'senderemail@gmail.com',
+            from: 'testsenderemail@gmail.com',
             to: recipientEmails,
             subject: `New Problem Reported: ${post.title}`,
             text: `A new issue has been submitted:\n\nTitle: ${post.title}\nDescription: ${post.description}\nUser Type: ${post.userType}\nInstitution: ${post.institution}\nEmail: ${post.email}\nPhone: ${post.phone}`,

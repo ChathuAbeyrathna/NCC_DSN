@@ -24,7 +24,10 @@ export class PostService {
     return this.http.post<Post>(this.apiUrl, post);
   }
 
-  getReports(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.apiUrl);
+  getReports(startDate?: string, endDate?: string): Observable<Post[]> {
+    const params: any = {};
+    if (startDate) params.startDate = startDate;
+    if (endDate) params.endDate = endDate;
+    return this.http.get<Post[]>(this.apiUrl, { params });
   }
 }

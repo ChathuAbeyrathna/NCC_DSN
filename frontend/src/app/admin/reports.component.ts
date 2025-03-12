@@ -3,21 +3,26 @@ import { CommonModule } from '@angular/common';
 import { PostService } from '../post.service';
 import * as XLSX from 'xlsx'; 
 import { NavComponent } from './nav.component';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [CommonModule, NavComponent],
+  imports: [CommonModule, NavComponent, FormsModule], // Add FormsModule
   template: `
     <div class="container">
-
       <app-nav></app-nav>
 
       <div class="header">
         <h2>Reported Issues</h2>
-        <button (click)="downloadReport()" class="download-btn">
-          Download Report
-        </button>
+        <div>
+          <input type="date" [(ngModel)]="startDate" />
+          <input type="date" [(ngModel)]="endDate" />
+          <button (click)="applyFilter()" class="filter-btn">Apply Filter</button>
+          <button (click)="downloadReport()" class="download-btn">
+            Download Report
+          </button>
+        </div>
       </div>
 
       <table>
@@ -78,7 +83,7 @@ import { NavComponent } from './nav.component';
       margin: 0;
     }
 
-    .download-btn {
+    .download-btn, .filter-btn {
       background-color: #0066CC;
       color: white;
       border: none;
@@ -86,9 +91,10 @@ import { NavComponent } from './nav.component';
       border-radius: 5px;
       cursor: pointer;
       font-size: 14px;
+      margin-left: 10px;
     }
 
-    .download-btn:hover {
+    .download-btn:hover, .filter-btn:hover {
       background-color:rgb(1, 59, 121);
     }
 
@@ -169,16 +175,24 @@ export class ReportsComponent implements OnInit {
   postService = inject(PostService);
   isModalOpen = false;
   selectedImageUrl: string | null = null;
+  startDate: string = '';
+  endDate: string = '';
 
   ngOnInit() {
     this.loadReports();
   }
 
   loadReports() {
-    this.postService.getReports().subscribe((data: any[]) => {
-      // Reverse the array to show the newest reports at the top
+    this.postService.getReports(this.startDate, this.endDate).subscribe((data: any[]) => {
       this.reports = data.reverse();
+      console.log('Reports loaded:', this.reports); // Log the reports
     });
+  }
+
+  applyFilter() {
+    console.log('Applying filter with startDate:', this.startDate); // Log the startDate
+    console.log('Applying filter with endDate:', this.endDate); // Log the endDate
+    this.loadReports();
   }
 
   openImageModal(imageUrl: string) {
@@ -227,5 +241,4 @@ export class ReportsComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Reported Issues');
     XLSX.writeFile(wb, 'Reported_Issues.xlsx');
   }
-  
 }

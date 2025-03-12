@@ -24,7 +24,9 @@ export class Post extends Document {
 
     @Prop()
     imageUrl: string;
-    
+
+    @Prop({ default: Date.now })
+    createdAt: Date;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

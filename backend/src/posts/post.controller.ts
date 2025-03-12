@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { PostsService } from './post.service';
 
 @Controller('posts')
@@ -11,7 +11,9 @@ export class PostsController {
     }
 
     @Get()
-    async findAll() {
-        return this.postsService.findAll();
+    async findAll(@Query('startDate') startDate: string, @Query('endDate') endDate: string) {
+        const start = startDate ? new Date(startDate) : undefined;
+        const end = endDate ? new Date(endDate) : undefined;
+        return this.postsService.findAll(start, end);
     }
 }
