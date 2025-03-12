@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
           <input type="date" [(ngModel)]="startDate" />
           <input type="date" [(ngModel)]="endDate" />
           <button (click)="applyFilter()" class="filter-btn">Apply Filter</button>
+          <button (click)="removeFilter()" class="remove-filter-btn">Remove Filter</button>
           <button (click)="downloadReport()" class="download-btn">
             Download Report
           </button>
@@ -83,7 +84,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
       margin: 0;
     }
 
-    .download-btn, .filter-btn {
+    .download-btn, .filter-btn, .remove-filter-btn {
       background-color: #0066CC;
       color: white;
       border: none;
@@ -94,8 +95,8 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
       margin-left: 10px;
     }
 
-    .download-btn:hover, .filter-btn:hover {
-      background-color:rgb(1, 59, 121);
+    .download-btn:hover, .filter-btn:hover, .remove-filter-btn:hover {
+      background-color: rgb(1, 59, 121);
     }
 
     table {
@@ -112,7 +113,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
     }
 
     th {
-      background-color:rgba(0, 102, 204, 0.49);
+      background-color: rgba(0, 102, 204, 0.49);
       color: white;
       padding: 20px 10px;
       text-align: center;
@@ -193,6 +194,13 @@ export class ReportsComponent implements OnInit {
     console.log('Applying filter with startDate:', this.startDate); // Log the startDate
     console.log('Applying filter with endDate:', this.endDate); // Log the endDate
     this.loadReports();
+  }
+
+  removeFilter() {
+    this.startDate = ''; // Reset startDate
+    this.endDate = ''; // Reset endDate
+    this.loadReports(); // Reload reports without filters
+    console.log('Filter removed. Loading all reports.'); // Log the action
   }
 
   openImageModal(imageUrl: string) {
