@@ -16,7 +16,7 @@ A web app with a home page, navigation, and links to **Report Problem** and **Us
 - Success message on submission.  
 - Reports sent to configurable emails.
 
-# Admin Panel 
+### Admin Panel 
 - View reported problem list.  
 - Navigate to report list table.  
 - Filter reports by date.  
