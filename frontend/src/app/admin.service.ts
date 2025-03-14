@@ -5,26 +5,26 @@ import { HttpClient } from '@angular/common/http';
     providedIn: 'root'
 })
 export class AdminService {
-    private apiUrl = 'http://localhost:3000/admins'; // Backend API URL
+    private apiUrl = 'http://localhost:3000/admins';
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
-    // Get all admins
+    // Get all members
     getAdmins() {
         return this.http.get<{ name: string; email: string }[]>(this.apiUrl);
     }
 
-    // Add a new admin
+    // Add a new member
     addAdmin(name: string, email: string) {
-        return this.http.post(`${this.apiUrl}/add`, { name, email });  // Corrected URL
+        return this.http.post(`${this.apiUrl}/add`, { name, email });
     }
 
     updateAdmin(email: string, admin: { name: string; newEmail: string }) {
         return this.http.put(`${this.apiUrl}/update/${email}`, admin);
-    }       
+    }
 
-    // Remove an admin by email
+    // Remove an member by email
     removeAdmin(email: string) {
-        return this.http.delete(`${this.apiUrl}/remove/${email}`);  // Corrected URL with email in the route
+        return this.http.delete(`${this.apiUrl}/remove/${email}`);
     }
 }

@@ -5,17 +5,17 @@ import { Admin } from './admin.schema';
 
 @Injectable()
 export class AdminService {
-    constructor(@InjectModel(Admin.name) private adminModel: Model<Admin>) {}
+    constructor(@InjectModel(Admin.name) private adminModel: Model<Admin>) { }
 
     // Add a new admin
     async addAdmin(name: string, email: string) {
         const existingAdmin = await this.adminModel.findOne({ email });
         if (existingAdmin) {
-            throw new NotFoundException('Admin email already exists');
+            throw new NotFoundException('Member email already exists');
         }
 
         const newAdmin = await this.adminModel.create({ name, email });
-        return { message: 'Admin added successfully', admin: newAdmin };
+        return { message: 'Member added successfully', admin: newAdmin };
     }
 
     // Get all admins
@@ -27,9 +27,9 @@ export class AdminService {
     async removeAdmin(email: string) {
         const result = await this.adminModel.deleteOne({ email });
         if (result.deletedCount === 0) {
-            throw new NotFoundException('Admin not found');
+            throw new NotFoundException('Member not found');
         }
-        return { message: 'Admin removed successfully' };
+        return { message: 'Member removed successfully' };
     }
 
     // Update admin details
@@ -37,13 +37,13 @@ export class AdminService {
         const admin = await this.adminModel.findOne({ email });
 
         if (!admin) {
-            throw new NotFoundException('Admin not found');
+            throw new NotFoundException('Member not found');
         }
 
         admin.name = name;
         admin.email = newEmail;
         await admin.save();
 
-        return { message: 'Admin updated successfully', admin };
+        return { message: 'Member updated successfully', admin };
     }
 }

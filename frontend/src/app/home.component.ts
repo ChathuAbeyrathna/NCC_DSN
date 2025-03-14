@@ -45,7 +45,7 @@ import { NavbarComponent } from './navbar.component';
       </div>
     </div>
   `,
- styles: [`
+  styles: [`
     /* General Styles */
     .container {
       font-family: Arial, sans-serif;
@@ -298,7 +298,7 @@ export class HomeComponent {
 
   scrollDown() {
     window.scrollBy({
-      top: window.innerHeight, // Scroll down by the height of the viewport
+      top: window.innerHeight,
       behavior: 'smooth' // Smooth scroll
     });
   }

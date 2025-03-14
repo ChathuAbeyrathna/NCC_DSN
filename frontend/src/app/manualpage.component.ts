@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
-import { NavbarComponent } from './navbar.component'; 
+import { CommonModule } from '@angular/common';
+import { NavbarComponent } from './navbar.component';
 
 @Component({
   selector: 'app-manual-page',
   standalone: true,
-  imports: [CommonModule, NavbarComponent], 
+  imports: [CommonModule, NavbarComponent],
   template: `
     <app-navbar></app-navbar> 
 
@@ -122,7 +122,7 @@ import { NavbarComponent } from './navbar.component';
       }
 
       .box-container {
-        flex-direction: column; /* Stack boxes vertically */
+        flex-direction: column; 
         gap: 30px; 
         margin-top: 30px;
       }
@@ -159,7 +159,7 @@ import { NavbarComponent } from './navbar.component';
       }
 
       .box-container {
-        gap: 20px; /* Further reduce gap between boxes */
+        gap: 20px; 
         margin-top: 20px;
       }
 

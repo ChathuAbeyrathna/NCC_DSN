@@ -1,187 +1,191 @@
 * {
-    font-family: 'Arial', sans-serif; 
-  } 
+  font-family: 'Arial', sans-serif;
+}
 
 .form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    margin-top: 40px;
-    margin-bottom: 140px;
-    padding: 40px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 2px solid #0066CC;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 140px;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid #0066CC;
+}
+
+.form-select {
+  color: gray;
+}
+
+.form-select.selected {
+  color: black;
+}
+
+
+.form-group {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  resize: vertical;
+  height: 120px;
+}
+
+.form-button {
+  padding: 10px 20px;
+  background-color: #0066CC;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 200px;
+}
+
+.form-button.secondary {
+  background-color: #6c757d;
+  margin-left: 0;
+  margin-top: 10px;
+}
+
+.form-button:hover {
+  opacity: 0.9;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 130px;
+  font-size: 30px;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-upload-container {
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  background-color: white;
+  margin-bottom: 30px;
+}
+
+.file-upload-container:hover {
+  border: 2px solid black;
+}
+
+.image-icon img {
+  width: 35px;
+  height: 35px;
+  margin-bottom: 5px;
+}
+
+.file-upload-label {
+  display: block;
+  cursor: pointer;
+}
+
+.file-upload-input {
+  display: none;
+}
+
+.placeholder-text {
+  color: #888;
+  font-size: 14px;
+}
+
+.success-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border: 1px solid #0066CC;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 20px;
+  color: #000000;
+  font-size: 16px;
+}
+
+.success-icon {
+  margin-right: 12px;
+}
+
+.success-icon img {
+  width: 24px;
+  height: 24px;
+}
+
+.success-text {
+  font-weight: bold;
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 60px;
   }
 
-  .form-select {
-    color: gray; 
-  }
-  
-  .form-select.selected {
-    color: black; 
-  }
-  
-  
-  .form-group {
-    margin-bottom: 15px;
-    width: 100%; 
-  }
-  
-  .form-input, .form-textarea, .form-select {
-    width: 100%; 
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box; 
-  }
-  
-  .form-textarea {
-    resize: vertical;
-    height: 120px;
-  }
-  
-  .form-button {
-    padding: 10px 20px;
-    background-color: #0066CC;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    display: block; /* Make the button a block element */
-    margin: 0 auto; /* Center-align the button */
-    width: 100%; /* Make buttons take full width */
-    max-width: 200px; /* Limit button width for better appearance */
-  }
-  
-  .form-button.secondary {
-    background-color: #6c757d;
-    margin-left: 0; 
-    margin-top: 10px; 
-  }
-  
-  .form-button:hover {
-    opacity: 0.9;
-  }
-  
   h2 {
-    text-align: center;
-    margin-top: 130px;
-    font-size: 30px;
+    margin-top: 110px;
+    font-size: 20px;
   }
-  
-  .button-group {
-    display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    align-items: center; /* Center-align buttons */
-    gap: 10px; /* Add spacing between buttons */
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .form-button {
+    font-size: 12px;
+    max-width: 120px;
+    padding: 8px 15px;
   }
 
   .file-upload-container {
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
-    cursor: pointer;
-    background-color: white;
-    margin-bottom: 30px;
+    padding: 6px;
   }
-  
-  .file-upload-container:hover {
-    border: 2px solid black;
-  }
-  
+
   .image-icon img {
-    width: 35px; /* Adjust size as needed */
-    height: 35px; /* Adjust size as needed */
-    margin-bottom: 5px;
+    width: 25px;
+    height: 25px;
   }
-  
-  .file-upload-label {
-    display: block;
-    cursor: pointer;
-  }
-  
-  .file-upload-input {
-    display: none; /* Hide the default file input */
-  }
-  
+
   .placeholder-text {
-    color: #888;
-    font-size: 14px;
+    font-size: 10px;
   }
 
   .success-message {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff; 
-    border: 1px solid #0066CC; 
-    border-radius: 8px;
-    padding: 16px;
-    margin-top: 20px;
-    color: #000000; 
-    font-size: 16px;
-  }
-  
-  .success-icon {
-    margin-right: 12px;
-  }
-  
-  .success-icon img {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .success-text {
-    font-weight: bold;
+    padding: 10px;
+    font-size: 12px;
   }
 
-  @media (max-width: 480px) {
-    .form-container {
-      padding: 15px;
-      margin-top: 10px;
-      margin-bottom: 60px;
-    }
-  
-    h2 {
-      margin-top: 110px;
-      font-size: 20px;
-    }
-  
-    .form-input, .form-textarea, .form-select {
-      font-size: 12px;
-      padding: 8px;
-    }
-  
-    .form-button {
-      font-size: 12px;
-      max-width: 120px;
-      padding: 8px 15px;
-    }
-  
-    .file-upload-container {
-      padding: 6px;
-    }
-  
-    .image-icon img {
-      width: 25px;
-      height: 25px;
-    }
-  
-    .placeholder-text {
-      font-size: 10px;
-    }
-  
-    .success-message {
-      padding: 10px;
-      font-size: 12px;
-    }
-  
-    .success-icon img {
-      width: 18px;
-      height: 18px;
-    }
+  .success-icon img {
+    width: 18px;
+    height: 18px;
   }
+}

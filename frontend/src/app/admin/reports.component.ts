@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PostService } from '../post.service';
-import * as XLSX from 'xlsx'; 
+import * as XLSX from 'xlsx';
 import { NavComponent } from './nav.component';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 
@@ -15,15 +15,22 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 
       <div class="header">
         <h2>Reported Issues</h2>
-        <div>
-          <input type="date" [(ngModel)]="startDate" />
-          <input type="date" [(ngModel)]="endDate" />
-          <button (click)="applyFilter()" class="filter-btn">Apply Filter</button>
-          <button (click)="removeFilter()" class="remove-filter-btn">Remove Filter</button>
-          <button (click)="downloadReport()" class="download-btn">
-            Download Report
-          </button>
-        </div>
+          <div class="filter-container">
+            <label class="filter-label">From:</label>
+            <input type="date" [(ngModel)]="startDate" class="filter-input" />
+
+            <label class="filter-label">To:</label>
+            <input type="date" [(ngModel)]="endDate" class="filter-input" />
+
+            <button (click)="applyFilter()" class="filter-btn">Apply</button>
+            <button (click)="removeFilter()" class="clear-btn">Clear</button>
+          </div>
+
+          <div>
+            <button (click)="downloadReport()" class="download-btn">
+              Download Report
+            </button>
+          </div>
       </div>
 
       <table>
@@ -67,7 +74,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
   `,
   styles: [`
     .container {
-      margin-top: 40px;
+      margin-top: 60px;
       padding: 50px;
       font-family: Arial, sans-serif;
     }
@@ -84,7 +91,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
       margin: 0;
     }
 
-    .download-btn, .filter-btn, .remove-filter-btn {
+    .download-btn {
       background-color: #0066CC;
       color: white;
       border: none;
@@ -95,14 +102,14 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
       margin-left: 10px;
     }
 
-    .download-btn:hover, .filter-btn:hover, .remove-filter-btn:hover {
+    .download-btn:hover {
       background-color: rgb(1, 59, 121);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 10px;
+      margin-top: 40px;
       background: white;
     }
 
@@ -130,27 +137,26 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
       text-decoration: underline;
     }
 
-    /* Modal Styles */
     .modal {
-      display: block;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: fixed;
       z-index: 1;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
       background-color: rgba(0, 0, 0, 0.9);
     }
 
     .modal-content {
-      margin: 5% auto;
       padding: 20px;
-      width: 80%;
-      max-width: 700px;
+      max-width: 90%; /* Adjusts to content width */
+      max-height: 90vh; /* Adjusts to content height */
+      overflow: auto; /* Enables scrolling if content overflows */
       background: white;
       border-radius: 10px;
-      position: relative;
     }
 
     .close {
@@ -169,6 +175,125 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
       width: auto;
       height: auto;
     }
+
+    .filter-container {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 14px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    .filter-input {
+      padding: 8px;
+      font-size: 14px;
+      color: gray;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 150px;
+    }
+
+    .filter-btn, .clear-btn {
+      padding: 8px 12px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .filter-btn {
+      background-color: #0066CC;
+      color: white;
+    }
+
+    .clear-btn {
+      background-color: #ff5555;
+      color: white;
+    }
+
+    .filter-btn:hover {
+      background-color: rgb(1, 59, 121);
+    }
+
+    .clear-btn:hover {
+      background-color: rgb(121, 0, 0);
+    }
+
+    /* Responsive Styles */
+  @media (max-width: 768px) {
+    .container {
+        padding: 30px; 
+    }
+
+    .header {
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 10px; 
+    }
+
+    h2 {
+        font-size: 20px; 
+    }
+
+    .download-btn {
+        margin-left: 0; 
+    }
+
+    table {
+        font-size: 14px; 
+        overflow-x: auto;
+        display: block; 
+    }
+
+    th, td {
+        padding: 6px; 
+    }
+
+    .filter-container {
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .modal-content {
+        width: 90%; 
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px; 
+    }
+
+    h2 {
+        font-size: 18px; 
+    }
+
+    .download-btn {
+        font-size: 12px; 
+        padding: 8px 12px; 
+    }
+
+    table {
+        font-size: 12px; 
+        overflow-x: auto;
+        display: block; 
+    }
+
+    th, td {
+        padding: 4px; 
+    }
+
+    .modal-content {
+        width: 95%; 
+        padding: 15px; 
+    }
+}
+
   `]
 })
 export class ReportsComponent implements OnInit {
@@ -186,21 +311,21 @@ export class ReportsComponent implements OnInit {
   loadReports() {
     this.postService.getReports(this.startDate, this.endDate).subscribe((data: any[]) => {
       this.reports = data.reverse();
-      console.log('Reports loaded:', this.reports); // Log the reports
+      console.log('Reports loaded:', this.reports);
     });
   }
 
   applyFilter() {
-    console.log('Applying filter with startDate:', this.startDate); // Log the startDate
-    console.log('Applying filter with endDate:', this.endDate); // Log the endDate
+    console.log('Applying filter with startDate:', this.startDate);
+    console.log('Applying filter with endDate:', this.endDate);
     this.loadReports();
   }
 
   removeFilter() {
-    this.startDate = ''; // Reset startDate
-    this.endDate = ''; // Reset endDate
-    this.loadReports(); // Reload reports without filters
-    console.log('Filter removed. Loading all reports.'); // Log the action
+    this.startDate = '';
+    this.endDate = '';
+    this.loadReports();
+    console.log('Filter removed. Loading all reports.');
   }
 
   openImageModal(imageUrl: string) {
@@ -223,17 +348,9 @@ export class ReportsComponent implements OnInit {
       "Description": report.description,
       "Image": report.imageUrl ? "Available" : "No Image"
     }));
-  
+
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(formattedReports);
-  
-    // Apply styles to headers
-    const headerRange = XLSX.utils.decode_range(ws["!ref"]!);
-    for (let C = headerRange.s.c; C <= headerRange.e.c; ++C) {
-      const cellRef = XLSX.utils.encode_cell({ r: 0, c: C });
-      if (!ws[cellRef]) continue;
-      ws[cellRef].s = { font: { bold: true }, fill: { fgColor: { rgb: "DCE6F1" } } };
-    }
-  
+
     // Auto-adjust column width
     ws["!cols"] = [
       { wch: 15 }, // User Type
@@ -244,7 +361,7 @@ export class ReportsComponent implements OnInit {
       { wch: 40 }, // Description
       { wch: 12 }  // Image
     ];
-  
+
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Reported Issues');
     XLSX.writeFile(wb, 'Reported_Issues.xlsx');

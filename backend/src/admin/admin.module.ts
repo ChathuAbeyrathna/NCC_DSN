@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AdminController } from './admin.controller'; // Import the AdminController
+import { AdminController } from './admin.controller'; 
 import { AdminService } from './admin.service';
 import { Admin, AdminSchema } from './admin.schema';
 
@@ -12,4 +12,4 @@ import { Admin, AdminSchema } from './admin.schema';
     providers: [AdminService], // Add AdminService to the providers array
     exports: [MongooseModule], // Export MongooseModule so other modules can use AdminModel
 })
-export class AdminModule {}
+export class AdminModule { }

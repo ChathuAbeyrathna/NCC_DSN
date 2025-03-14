@@ -10,9 +10,9 @@ export class PostsService {
     constructor(
         @InjectModel(Post.name) private postModel: Model<Post>,
         @InjectModel(Admin.name) private adminModel: Model<Admin>,
-    ) {}
+    ) { }
 
-    async create(userType: string, institution: string, email: string, phone: string,title: string, description: string, imageUrl: string): Promise<Post> {
+    async create(userType: string, institution: string, email: string, phone: string, title: string, description: string, imageUrl: string): Promise<Post> {
         const newPost = new this.postModel({ userType, institution, email, phone, title, description, imageUrl });
         const savedPost = await newPost.save();
         await this.sendEmailNotification(savedPost);
@@ -22,10 +22,29 @@ export class PostsService {
     async findAll(startDate?: Date, endDate?: Date): Promise<Post[]> {
         const query: any = {};
         if (startDate && endDate) {
-            query.createdAt = {
-                $gte: startDate,
-                $lte: endDate,
-            };
+            if (startDate.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]) {
+
+                query.createdAt = {
+                    $gte: startDate,
+                    $lt: new Date(startDate.getTime() + 24 * 60 * 60 * 1000),
+                };
+            } else {
+
+                query.$or = [
+                    {
+                        createdAt: {
+                            $gte: startDate,
+                            $lt: new Date(startDate.getTime() + 24 * 60 * 60 * 1000), // Start date
+                        },
+                    },
+                    {
+                        createdAt: {
+                            $gte: endDate,
+                            $lt: new Date(endDate.getTime() + 24 * 60 * 60 * 1000), // End date
+                        },
+                    },
+                ];
+            }
         }
         return this.postModel.find(query).exec();
     }
@@ -35,20 +54,20 @@ export class PostsService {
         const recipientEmails = admins.map(admin => admin.email);
 
         if (recipientEmails.length === 0) {
-            console.log('No admin emails found, skipping email notification.');
+            console.log('No member emails found, skipping email notification.');
             return;
         }
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'testsenderemail@gmail.com', // Replace with your email
-                pass: 'password', // Replace with your email password or app password
+                user: 'testsender@gmail.com', // Replace with sender email
+                pass: 'Password', // Replace with sender email password or app password
             },
         });
 
         const mailOptions: any = {
-            from: 'testsenderemail@gmail.com',
+            from: 'testsender@gmail.com', // Replace with sender email
             to: recipientEmails,
             subject: `New Problem Reported: ${post.title}`,
             text: `A new issue has been submitted:\n\nTitle: ${post.title}\nDescription: ${post.description}\nUser Type: ${post.userType}\nInstitution: ${post.institution}\nEmail: ${post.email}\nPhone: ${post.phone}`,
@@ -58,7 +77,7 @@ export class PostsService {
             mailOptions.attachments = [
                 {
                     filename: 'problem image.jpg', // Customize the filename
-                    path: post.imageUrl, 
+                    path: post.imageUrl,
                 },
             ];
         }

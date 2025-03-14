@@ -1,29 +1,29 @@
 import { Controller, Post, Get, Delete, Put, Body, Param, NotFoundException } from '@nestjs/common';
 import { AdminService } from './admin.service';
 
-@Controller('admins') // Base route for this controller
+@Controller('admins')
 export class AdminController {
-    constructor(private readonly adminService: AdminService) {}
+    constructor(private readonly adminService: AdminService) { }
 
-    // Add a new admin
-    @Post('add') // POST /admins/add
+    // Add a new member
+    @Post('add')
     async addAdmin(@Body() { name, email }: { name: string; email: string }) {
         return this.adminService.addAdmin(name, email);
     }
 
-    // Get all admins
-    @Get() // GET /admins
+    // Get all members
+    @Get()
     async getAdmins() {
         return this.adminService.getAdmins();
     }
 
-    // Remove an admin by email
-    @Delete('remove/:email') // DELETE /admins/remove/:email
+    // Remove an member by email
+    @Delete('remove/:email')
     async removeAdmin(@Param('email') email: string) {
         return this.adminService.removeAdmin(email);
     }
 
-    // Update admin details
+    // Update member details
     @Put('update/:email')
     async updateAdmin(
         @Param('email') email: string,

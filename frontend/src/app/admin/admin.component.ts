@@ -83,7 +83,7 @@ export class AdminComponent implements OnInit {
     isEditing = false;
     editingEmail = '';
 
-    constructor(private adminService: AdminService, private router: Router) {}
+    constructor(private adminService: AdminService, private router: Router) { }
 
     ngOnInit() {
         this.loadAdmins();
@@ -100,7 +100,7 @@ export class AdminComponent implements OnInit {
         if (editing && admin) {
             this.newName = admin.name;
             this.newEmail = admin.email;
-            this.editingEmail = admin.email; // Store original email for updating
+            this.editingEmail = admin.email;
         } else {
             this.newName = '';
             this.newEmail = '';

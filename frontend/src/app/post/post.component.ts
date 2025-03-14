@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PostService } from '../post.service';
-import { NavbarComponent } from '../navbar.component'; 
+import { NavbarComponent } from '../navbar.component';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 import { environment } from '../../environment';
@@ -93,33 +93,33 @@ export class PostComponent {
 
   handleFileInput(event: any) {
     const file = event.target.files[0];
-  
+
     if (file) {
       const maxSize = 2 * 1024 * 1024; // 2MB
-  
+
       if (file.size > maxSize) {
         alert('File size exceeds 2MB. Please upload a smaller file.');
         return;
       }
-  
-      this.imageFile = file; // Store the valid file
+
+      this.imageFile = file;
     }
   }
-  
+
 
   async submitPost() {
     if (!this.title || !this.email || !this.phone || !this.description || !this.userType || !this.institution) {
       alert('Please fill in all required fields');
       return;
     }
-  
+
     // Email validation
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(this.email)) {
       alert('Please enter a valid email address');
       return;
     }
-  
+
     // Phone validation (basic pattern for phone number)
     const phonePattern = /^[0-9]{10}$/;
     if (!phonePattern.test(this.phone)) {
@@ -136,7 +136,7 @@ export class PostComponent {
       const snapshot = await uploadBytes(storageRef, this.imageFile);
       imageUrl = await getDownloadURL(snapshot.ref);
     }
-  
+
     const post = {
       userType: this.userType,
       institution: this.institution,

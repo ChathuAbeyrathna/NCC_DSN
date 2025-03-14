@@ -18,7 +18,7 @@ interface Post {
 export class PostService {
   private apiUrl = 'http://localhost:3000/posts';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   submitPost(post: Post): Observable<Post> {
     return this.http.post<Post>(this.apiUrl, post);

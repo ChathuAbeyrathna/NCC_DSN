@@ -4,7 +4,8 @@
     font-family: Arial, sans-serif;
 }
 
-h1, h2 {
+h1,
+h2 {
     color: #333;
     margin-bottom: 30px;
 }
@@ -13,7 +14,7 @@ h1, h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
 table {
     width: 95%;
@@ -22,7 +23,8 @@ table {
     margin-top: 30px;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     text-align: center;
     border-bottom: 1px solid #ddd;
@@ -36,25 +38,25 @@ th {
 button img {
     width: 20px;
     height: 20px;
-  }
-  
+}
+
 .edit-btn {
     background: none;
     border: none;
     cursor: pointer;
     margin-right: 10px;
-  }
-  
+}
+
 .remove-btn {
     background: none;
     border: none;
     cursor: pointer;
-  }
+}
 
 .navbutton-container {
     display: flex;
     justify-content: center;
-  }
+}
 
 .nav-button {
     background-color: rgba(41, 105, 157, 0.35);
@@ -62,17 +64,19 @@ button img {
     font-size: medium;
     border: none;
     border-radius: 5px;
-    padding: 30px 20px;
+    padding: 30px;
+    padding-right: 55px;
     width: 95%;
-    text-align: left;
+    text-align: center;
     margin-bottom: 40px;
+    cursor: pointer;
 }
 
 .button-container {
     display: flex;
-    justify-content: center;
-    margin-right: 60px;
-  }
+    justify-content: left;
+    margin-left: 35px;
+}
 
 .addmem-btn {
     background-color: #18202C;
@@ -82,14 +86,14 @@ button img {
     border-radius: 8px;
     cursor: pointer;
     width: 200px;
-  }
-  
+}
+
 .addmem-btn:hover {
     background-color: #10151D;
-  }
+}
 
-  
-  .modal-page {
+
+.modal-page {
     position: fixed;
     top: 0;
     left: 0;
@@ -150,4 +154,101 @@ button img {
     cursor: pointer;
     background-color: #0066CC;
     color: white;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 30px;
+    }
+
+    .nav-button {
+        padding: 20px;
+        padding-right: 40px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: 8px;
+    }
+
+    .button-container {
+        justify-content: center;
+        margin-left: 0;
+    }
+
+    .addmem-btn {
+        width: 100%;
+        max-width: 200px;
+        padding: 10px 20px;
+    }
+
+    .modal-container {
+        width: 90%;
+    }
+
+    .form-group label {
+        margin-left: 20px;
+    }
+
+    .form-group input {
+        width: 60%;
+        margin-right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-container {
+        padding: 20px;
+    }
+
+    h1,
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .nav-button {
+        padding: 15px;
+        padding-right: 30px;
+        font-size: small;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th,
+    td {
+        padding: 6px;
+    }
+
+    .addmem-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .modal-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-group label {
+        margin-left: 0;
+        margin-bottom: 5px;
+    }
+
+    .form-group input {
+        width: 95%;
+        margin-right: 0;
+    }
 }

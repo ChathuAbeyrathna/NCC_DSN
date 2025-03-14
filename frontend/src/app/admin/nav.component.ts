@@ -42,6 +42,44 @@ import { Component } from '@angular/core';
       height: 30px;
     }
 
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem 2rem; 
+      }
+
+      .logo {
+        font-size: 1.2rem; 
+      }
+
+      .nav-icons {
+        gap: 1rem; 
+      }
+
+      .icon img {
+        width: 25px; 
+        height: 25px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar {
+        padding: 1rem; 
+      }
+
+      .logo {
+        font-size: 1rem; 
+      }
+
+      .nav-icons {
+        gap: 0.75rem; 
+      }
+
+      .icon img {
+        width: 20px; 
+        height: 20px;
+      }
+    }
   `]
 })
-export class NavComponent {}
+export class NavComponent { }
