@@ -14,7 +14,14 @@ A web app with a home page, navigation, and links to **Report Problem** and **Us
 ### Report Problems Page  
 - Issue reporting form with fields for user details, problem info & optional image upload (max 2MB).  
 - Success message on submission.  
-- Reports sent to configurable emails.  
+- Reports sent to configurable emails.
+
+# Admin Panel 
+- View reported problem list.  
+- Navigate to report list table.  
+- Filter reports by date.  
+- Download report list as an Excel sheet.  
+- Add, edit, and delete support team members.    
 
 ## Required Changes  
 - **MongoDB**: Update connection in **app.module.ts**.  
