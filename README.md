@@ -1,7 +1,8 @@
 # NCC_DSN Project
 
 ## Overview  
-A web app with a home page, navigation, and links to **Report Problem** and **User Manuals** pages.  
+A web app with a home page, navigation, and links to **Report Problem** and **User Manuals** pages.
+**Admin Panel** for issue reporting management & support team management
 
 ## Features  
 
