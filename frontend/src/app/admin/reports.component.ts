@@ -152,8 +152,8 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 
     .modal-content {
       padding: 20px;
-      max-width: 90%; /* Adjusts to content width */
-      max-height: 90vh; /* Adjusts to content height */
+      max-width: 60%; 
+      max-height: 60vh; 
       overflow: auto; /* Enables scrolling if content overflows */
       background: white;
       border-radius: 10px;

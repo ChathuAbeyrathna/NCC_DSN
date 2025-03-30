@@ -1,49 +1,58 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Admin } from './admin.schema';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Admin } from './admin.entity';
 
 @Injectable()
 export class AdminService {
-    constructor(@InjectModel(Admin.name) private adminModel: Model<Admin>) { }
+    constructor(
+        @InjectRepository(Admin)
+        private readonly adminRepository: Repository<Admin>
+    ) {}
 
     // Add a new admin
     async addAdmin(name: string, email: string) {
-        const existingAdmin = await this.adminModel.findOne({ email });
+        const existingAdmin = await this.adminRepository.findOne({ where: { email } });
+
         if (existingAdmin) {
-            throw new NotFoundException('Member email already exists');
+            throw new NotFoundException('Admin email already exists');
         }
 
-        const newAdmin = await this.adminModel.create({ name, email });
-        return { message: 'Member added successfully', admin: newAdmin };
+        const newAdmin = this.adminRepository.create({ name, email });
+        await this.adminRepository.save(newAdmin);
+
+        return { message: 'Admin added successfully', admin: newAdmin };
     }
 
     // Get all admins
     async getAdmins() {
-        return this.adminModel.find().select('name email -_id');
+        return this.adminRepository.find({ select: ['name', 'email'] });
     }
 
     // Remove an admin by email
     async removeAdmin(email: string) {
-        const result = await this.adminModel.deleteOne({ email });
-        if (result.deletedCount === 0) {
-            throw new NotFoundException('Member not found');
+        const result = await this.adminRepository.delete({ email });
+
+        if (result.affected === 0) {
+            throw new NotFoundException('Admin not found');
         }
-        return { message: 'Member removed successfully' };
+
+        return { message: 'Admin removed successfully' };
     }
 
     // Update admin details
     async updateAdmin(email: string, name: string, newEmail: string) {
-        const admin = await this.adminModel.findOne({ email });
+        const admin = await this.adminRepository.findOne({ where: { email } });
 
         if (!admin) {
-            throw new NotFoundException('Member not found');
+            throw new NotFoundException('Admin not found');
         }
 
         admin.name = name;
         admin.email = newEmail;
-        await admin.save();
 
-        return { message: 'Member updated successfully', admin };
+        await this.adminRepository.save(admin);
+
+        return { message: 'Admin updated successfully', admin };
     }
 }

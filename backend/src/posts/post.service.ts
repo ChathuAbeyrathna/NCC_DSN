@@ -1,85 +1,60 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Post } from './post.schema';
-import { Admin } from '../admin/admin.schema';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Post } from './post.entity';
+import { Admin } from '../admin/admin.entity';
 import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class PostsService {
     constructor(
-        @InjectModel(Post.name) private postModel: Model<Post>,
-        @InjectModel(Admin.name) private adminModel: Model<Admin>,
+        @InjectRepository(Post) private postRepository: Repository<Post>,
+        @InjectRepository(Admin) private adminRepository: Repository<Admin>,
     ) { }
 
     async create(userType: string, institution: string, email: string, phone: string, title: string, description: string, imageUrl: string): Promise<Post> {
-        const newPost = new this.postModel({ userType, institution, email, phone, title, description, imageUrl });
-        const savedPost = await newPost.save();
+        const newPost = this.postRepository.create({ userType, institution, email, phone, title, description, imageUrl });
+        const savedPost = await this.postRepository.save(newPost);
         await this.sendEmailNotification(savedPost);
         return savedPost;
     }
 
     async findAll(startDate?: Date, endDate?: Date): Promise<Post[]> {
-        const query: any = {};
+        let query = this.postRepository.createQueryBuilder('post');
+
         if (startDate && endDate) {
-            if (startDate.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]) {
-
-                query.createdAt = {
-                    $gte: startDate,
-                    $lt: new Date(startDate.getTime() + 24 * 60 * 60 * 1000),
-                };
-            } else {
-
-                query.$or = [
-                    {
-                        createdAt: {
-                            $gte: startDate,
-                            $lt: new Date(startDate.getTime() + 24 * 60 * 60 * 1000), // Start date
-                        },
-                    },
-                    {
-                        createdAt: {
-                            $gte: endDate,
-                            $lt: new Date(endDate.getTime() + 24 * 60 * 60 * 1000), // End date
-                        },
-                    },
-                ];
-            }
+            query = query.where('post.createdAt BETWEEN :startDate AND :endDate', { startDate, endDate });
         }
-        return this.postModel.find(query).exec();
+
+        return query.getMany();
     }
 
     private async sendEmailNotification(post: Post) {
-        const admins = await this.adminModel.find().select('email -_id');
+        const admins = await this.adminRepository.find({ select: ['email'] });
         const recipientEmails = admins.map(admin => admin.email);
 
         if (recipientEmails.length === 0) {
-            console.log('No member emails found, skipping email notification.');
+            console.log('No admin emails found, skipping email notification.');
             return;
         }
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'testsender@gmail.com', // Replace with sender email
-                pass: 'Password', // Replace with sender email password or app password
+                user: 'sender@gmail.com', // Replace with sender email
+                pass: 'password', // Replace with sender email password or app password
             },
         });
 
         const mailOptions: any = {
-            from: 'testsender@gmail.com', // Replace with sender email
+            from: 'sender@gmail.com',
             to: recipientEmails,
             subject: `New Problem Reported: ${post.title}`,
             text: `A new issue has been submitted:\n\nTitle: ${post.title}\nDescription: ${post.description}\nUser Type: ${post.userType}\nInstitution: ${post.institution}\nEmail: ${post.email}\nPhone: ${post.phone}`,
         };
 
         if (post.imageUrl) {
-            mailOptions.attachments = [
-                {
-                    filename: 'problem image.jpg', // Customize the filename
-                    path: post.imageUrl,
-                },
-            ];
+            mailOptions.attachments = [{ filename: 'problem image.jpg', path: post.imageUrl }];
         }
 
         try {

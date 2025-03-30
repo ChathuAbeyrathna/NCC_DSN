@@ -1,13 +1,22 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostsModule } from './posts/post.module';
 import { AdminModule } from './admin/admin.module';
 
 @Module({
     imports: [
-        MongooseModule.forRoot('mongodb+srv://chathuabeyrathne2001:8xEE4IF1LilyqZmu@cluster0.ab99p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'), // Replace with your DB 
+        TypeOrmModule.forRoot({
+            type: 'mysql',
+            host: 'localhost', 
+            port: 3306, 
+            username: 'root', 
+            password: 'Chathu9775*', // change password
+            database: 'ncc-dsn', // change database name
+            entities: [__dirname + '/**/*.entity.{ts,js}'], 
+            synchronize: true, 
+        }),
         PostsModule,
-        AdminModule, // Add Admin Module here
+        AdminModule, 
     ],
 })
 export class AppModule {}

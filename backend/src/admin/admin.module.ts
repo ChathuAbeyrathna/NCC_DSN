@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { AdminController } from './admin.controller'; 
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
-import { Admin, AdminSchema } from './admin.schema';
+import { Admin } from './admin.entity';
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }])
-    ],
-    controllers: [AdminController], // Add AdminController to the controllers array
-    providers: [AdminService], // Add AdminService to the providers array
-    exports: [MongooseModule], // Export MongooseModule so other modules can use AdminModel
+    imports: [TypeOrmModule.forFeature([Admin])],
+    controllers: [AdminController],
+    providers: [AdminService],
+    exports: [TypeOrmModule]
 })
-export class AdminModule { }
+export class AdminModule {}
