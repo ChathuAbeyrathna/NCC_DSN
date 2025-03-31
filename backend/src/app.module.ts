@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostsModule } from './posts/post.module';
 import { AdminModule } from './admin/admin.module';
+import { ProjectsModule } from './pipelineDev/project.module';
 
 @Module({
     imports: [
@@ -16,7 +17,8 @@ import { AdminModule } from './admin/admin.module';
             synchronize: true, 
         }),
         PostsModule,
-        AdminModule, 
+        AdminModule,
+        ProjectsModule
     ],
 })
 export class AppModule {}

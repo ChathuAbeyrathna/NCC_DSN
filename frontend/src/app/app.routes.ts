@@ -5,6 +5,7 @@ import { ManualPageComponent } from './manualpage.component';
 import { AdminComponent } from './admin/admin.component';
 import { ReportsComponent } from './admin/reports.component';
 import { PipelineComponent } from './pipelineDev/pipeline.component';
+import { ProjectsComponent } from './pipelineDev/projects.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,4 +14,5 @@ export const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'reports', component: ReportsComponent },
   { path: 'pipeline', component: PipelineComponent },
+  { path: 'projects', component: ProjectsComponent },
 ];

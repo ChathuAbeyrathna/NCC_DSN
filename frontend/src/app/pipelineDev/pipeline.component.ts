@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-pipeline',
@@ -8,6 +9,7 @@ import { FormsModule } from '@angular/forms';
   template: `
     <div class="container">
       <h2>Projects</h2>
+      <div class="form-container">
       <form (ngSubmit)="submitForm()">
         <label>Project Title:</label>
         <input type="text" [(ngModel)]="formData.projectTitle" name="projectTitle" required />
@@ -62,11 +64,76 @@ import { FormsModule } from '@angular/forms';
 
         <button type="submit">Submit</button>
       </form>
+      </div>
     </div>
   `,
-  styleUrls: ['./pipeline.component.css']
+  styles: [`
+    .container {
+      width: 60%;
+      margin: 2rem auto;
+      font-family: Arial, sans-serif;
+    }
+    
+    .form-container{
+      padding: 60px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #333;
+      font-size: 35px;
+      margin-top: 40px;
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 10px;
+      color: #444;
+    }
+
+    input,
+    textarea {
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+    `]
 })
 export class PipelineComponent {
+  constructor(private http: HttpClient) {}
+  
   formData = {
     projectTitle: '',
     projectDescription: '',
@@ -88,6 +155,8 @@ export class PipelineComponent {
   };
 
   submitForm() {
-    console.log('Form Submitted:', this.formData);
+    this.http.post('http://localhost:3000/projects', this.formData).subscribe(response => {
+      console.log('Project submitted:', response);
+    });
   }
 }
