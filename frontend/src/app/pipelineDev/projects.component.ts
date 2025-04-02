@@ -104,6 +104,7 @@ import { FormsModule } from '@angular/forms';
       </div>
     </div>
   `,
+  
   styles: [`
     .container {
       width: 80%;

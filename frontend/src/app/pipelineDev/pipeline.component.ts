@@ -70,6 +70,7 @@ import { HttpClient } from '@angular/common/http';
       </div>
     </div>
   `,
+  
   styles: [`
     .container {
       width: 60%;
