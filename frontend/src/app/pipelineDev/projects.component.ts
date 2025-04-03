@@ -10,21 +10,33 @@ import { FormsModule } from '@angular/forms';
   template: `
     <div class="container">
       <h2>Projects</h2>
-      
+
       <div class="select-container">
         <div class="custom-select" [class.open]="isDropdownOpen" (clickOutside)="closeDropdown()">
           <div class="select-header" (click)="toggleDropdown()">
             {{ selectedProject ? selectedProject.projectTitle : 'Choose a project...' }}
             <span class="custom-arrow">{{ isDropdownOpen ? '▲' : '▼' }}</span>
           </div>
+
           <div class="dropdown-options" *ngIf="isDropdownOpen">
-            <div 
-              *ngFor="let project of projects" 
-              class="option" 
-              (click)="selectProject(project)"
-              [class.selected]="selectedProject === project"
-            >
-              {{ project.projectTitle }}
+            <!-- Search Box Inside Dropdown -->
+            <input type="text" [(ngModel)]="searchTerm" (input)="filterProjects()" 
+                   placeholder="Search projects..." class="search-input">
+
+            <div *ngIf="filteredProjects.length > 0">
+              <div 
+                *ngFor="let project of filteredProjects" 
+                class="option" 
+                (click)="selectProject(project)"
+                [class.selected]="selectedProject === project"
+              >
+                {{ project.projectTitle }}
+              </div>
+            </div>
+            
+            <!-- Show Message if No Projects Match Search -->
+            <div *ngIf="filteredProjects.length === 0" class="no-results">
+              No matching projects found.
             </div>
           </div>
         </div>
@@ -32,74 +44,23 @@ import { FormsModule } from '@angular/forms';
 
       <div *ngIf="selectedProject" class="project-details">
         <table class="project-table">
-          <tr>
-            <th>Project Title</th>
-            <td>{{ selectedProject.projectTitle }}</td>
-          </tr>
-          <tr>
-            <th>Project Description</th>
-            <td>{{ selectedProject.projectDescription }}</td>
-          </tr>
-          <tr>
-            <th>Location</th>
-            <td>{{ selectedProject.projectLocation }}</td>
-          </tr>
-          <tr>
-            <th>Duration</th>
-            <td>{{ selectedProject.projectDuration }}</td>
-          </tr>
-          <tr>
-            <th>Accredited Entity</th>
-            <td>{{ selectedProject.accreditedEntity }}</td>
-          </tr>
-          <tr>
-            <th>Implementing Agencies</th>
-            <td>{{ selectedProject.implementingAgencies }}</td>
-          </tr>
-          <tr>
-            <th>Sector</th>
-            <td>{{ selectedProject.sector }}</td>
-          </tr>
-          <tr>
-            <th>Focus</th>
-            <td>{{ selectedProject.focus }}</td>
-          </tr>
-          <tr>
-            <th>GCF Result Areas</th>
-            <td>{{ selectedProject.gcfResultAreas }}</td>
-          </tr>
-          <tr>
-            <th>Indicative GCF Financing</th>
-            <td>{{ selectedProject.gcfFinancing }}</td>
-          </tr>
-          <tr>
-            <th>Indicative Co-Financing</th>
-            <td>{{ selectedProject.coFinancing }}</td>
-          </tr>
-          <tr>
-            <th>Indicative Overall Financing</th>
-            <td>{{ selectedProject.overallFinancing }}</td>
-          </tr>
-          <tr>
-            <th>Financing Instruments</th>
-            <td>{{ selectedProject.financingInstruments }}</td>
-          </tr>
-          <tr>
-            <th>Status</th>
-            <td>{{ selectedProject.status }}</td>
-          </tr>
-          <tr>
-            <th>Contact Information</th>
-            <td>{{ selectedProject.contactInfo }}</td>
-          </tr>
-          <tr>
-            <th>Stage 1 Score</th>
-            <td>{{ selectedProject.stage1Score }}</td>
-          </tr>
-          <tr>
-            <th>Stage 2 Score</th>
-            <td>{{ selectedProject.stage2Score }}</td>
-          </tr>
+          <tr><th>Project Title</th><td>{{ selectedProject.projectTitle }}</td></tr>
+          <tr><th>Project Description</th><td>{{ selectedProject.projectDescription }}</td></tr>
+          <tr><th>Location</th><td>{{ selectedProject.projectLocation }}</td></tr>
+          <tr><th>Duration</th><td>{{ selectedProject.projectDuration }}</td></tr>
+          <tr><th>Accredited Entity</th><td>{{ selectedProject.accreditedEntity }}</td></tr>
+          <tr><th>Implementing Agencies</th><td>{{ selectedProject.implementingAgencies }}</td></tr>
+          <tr><th>Sector</th><td>{{ selectedProject.sector }}</td></tr>
+          <tr><th>Focus</th><td>{{ selectedProject.focus }}</td></tr>
+          <tr><th>GCF Result Areas</th><td>{{ selectedProject.gcfResultAreas }}</td></tr>
+          <tr><th>Indicative GCF Financing</th><td>{{ selectedProject.gcfFinancing }}</td></tr>
+          <tr><th>Indicative Co-Financing</th><td>{{ selectedProject.coFinancing }}</td></tr>
+          <tr><th>Indicative Overall Financing</th><td>{{ selectedProject.overallFinancing }}</td></tr>
+          <tr><th>Financing Instruments</th><td>{{ selectedProject.financingInstruments }}</td></tr>
+          <tr><th>Status</th><td>{{ selectedProject.status }}</td></tr>
+          <tr><th>Contact Information</th><td>{{ selectedProject.contactInfo }}</td></tr>
+          <tr><th>Stage 1 Score</th><td>{{ selectedProject.stage1Score }}</td></tr>
+          <tr><th>Stage 2 Score</th><td>{{ selectedProject.stage2Score }}</td></tr>
         </table>
       </div>
     </div>
@@ -118,12 +79,12 @@ import { FormsModule } from '@angular/forms';
     }
     .select-container {
       margin-bottom: 2rem;
-    }    
+    }
     .custom-select {
       position: relative;
       width: 100%;
       max-width: 600px;
-    } 
+    }
     .select-header {
       width: 100%;
       padding: 12px 16px;
@@ -133,7 +94,7 @@ import { FormsModule } from '@angular/forms';
       color: #333;
       font-size: 16px;
       cursor: pointer;
-      overflow: hidden;    
+      overflow: hidden;
     }
     .custom-arrow {
       position: absolute;
@@ -157,6 +118,15 @@ import { FormsModule } from '@angular/forms';
       z-index: 1000;
       margin-top: 4px;
     }
+    .search-input {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-bottom: 2px solid #4E50BE;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 5px;
+    }
     .option {
       padding: 12px 16px;
       cursor: pointer;
@@ -165,104 +135,61 @@ import { FormsModule } from '@angular/forms';
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 100%;
-    }    
+    }
     .option:hover {
       background-color: #f5f5f5;
     }
-     .option.selected {
+    .option.selected {
       background-color: #e0e0e0;
+    }
+    .no-results {
+      padding: 12px;
+      color: red;
+      font-size: 14px;
+      text-align: center;
     }
     .project-details {
       margin-top: 40px;
       overflow-x: auto;
-    }   
+    }
     .project-table {
       width: 100%;
       border-collapse: collapse;
       box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-    }   
+    }
     .project-table th, .project-table td {
       border: 1px solid #e0e0e0;
       padding: 12px;
       font-size: 15px;
-    }   
+    }
     .project-table th {
       background-color: rgba(0, 102, 204, 0.49);
       color: white;
       text-align: left;
       width: 30%;
-    }   
-    /* Scrollable dropdown for many options */
-    select {
-      max-height: 200px;
-      overflow-y: auto;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .container {
-        width: 90%;
-      }     
-      h2 {
-        font-size: 24px;
-      }   
-      .select-header {
-        padding: 10px 14px;
-        font-size: 14px; 
-        width: 100%;
-      }
-      .option {
-        white-space: normal;
-        word-wrap: break-word;
-      }
-      .project-table th,
-      .project-table td {
-        font-size: 14px;
-        padding: 10px;
-      }   
-      .project-table th {
-        width: 35%;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .container {
-        width: 95%;
-      }      
-      h2 {
-        font-size: 20px;
-      }     
-      .select-header {
-        padding: 8px 12px;
-        font-size: 14px;
-        width: 90%;
-      }
-      .option {
-        white-space: normal;
-        word-wrap: break-word;
-      }
-      .project-table th,
-      .project-table td {
-        font-size: 12px;
-        padding: 8px;
-      }     
-      .project-table th {
-        width: 40%;
-      }
     }
   `]
 })
 export class ProjectsComponent implements OnInit {
   projects: any[] = [];
+  filteredProjects: any[] = [];
   selectedProject: any = null;
   isDropdownOpen: boolean = false;
+  searchTerm: string = '';
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
     this.http.get('http://localhost:3000/projects').subscribe((data: any) => {
       this.projects = data;
+      this.filteredProjects = data; // Initially show all projects
     });
+  }
+
+  filterProjects() {
+    this.filteredProjects = this.projects.filter(project =>
+      project.projectTitle.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+    );
   }
 
   toggleDropdown() {
