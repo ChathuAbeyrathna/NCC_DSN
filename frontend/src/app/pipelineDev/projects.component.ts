@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
@@ -19,7 +20,6 @@ import { FormsModule } from '@angular/forms';
           </div>
 
           <div class="dropdown-options" *ngIf="isDropdownOpen">
-            <!-- Search Box Inside Dropdown -->
             <input type="text" [(ngModel)]="searchTerm" (input)="filterProjects()" 
                    placeholder="Search projects..." class="search-input">
 
@@ -34,7 +34,6 @@ import { FormsModule } from '@angular/forms';
               </div>
             </div>
             
-            <!-- Show Message if No Projects Match Search -->
             <div *ngIf="filteredProjects.length === 0" class="no-results">
               No matching projects found.
             </div>
@@ -43,6 +42,11 @@ import { FormsModule } from '@angular/forms';
       </div>
 
       <div *ngIf="selectedProject" class="project-details">
+        <div class="action-buttons">
+          <button (click)="editProject()" class="edit-button">Edit</button>
+          <button (click)="deleteProject()" class="delete-button">Delete</button>
+        </div>
+
         <table class="project-table">
           <tr><th>Project Title</th><td>{{ selectedProject.projectTitle }}</td></tr>
           <tr><th>Project Description</th><td>{{ selectedProject.projectDescription }}</td></tr>
@@ -86,7 +90,7 @@ import { FormsModule } from '@angular/forms';
       max-width: 600px;
     }
     .select-header {
-      width: 100%;
+      width: 95%;
       padding: 12px 16px;
       border: 2px solid #4E50BE;
       border-radius: 6px;
@@ -148,9 +152,23 @@ import { FormsModule } from '@angular/forms';
       font-size: 14px;
       text-align: center;
     }
-    .project-details {
-      margin-top: 40px;
-      overflow-x: auto;
+    .action-buttons {
+      margin: 20px 0;
+      display: flex;
+      gap: 10px;
+    }
+    .edit-button, .delete-button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .edit-button { background: #4E50BE; }
+    .edit-button:hover { background: #3c3eb0; }
+    .delete-button { background: #e63946; }
+    .delete-button:hover { background: #c92d3b; 
     }
     .project-table {
       width: 100%;
@@ -177,12 +195,16 @@ export class ProjectsComponent implements OnInit {
   isDropdownOpen: boolean = false;
   searchTerm: string = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { } 
 
   ngOnInit() {
+    this.loadProjects();
+  }
+
+  loadProjects() {
     this.http.get('http://localhost:3000/projects').subscribe((data: any) => {
       this.projects = data;
-      this.filteredProjects = data; // Initially show all projects
+      this.filteredProjects = data;
     });
   }
 
@@ -203,5 +225,28 @@ export class ProjectsComponent implements OnInit {
   selectProject(project: any) {
     this.selectedProject = project;
     this.isDropdownOpen = false;
+  }
+
+  editProject() {
+    if (this.selectedProject) {
+      this.router.navigate(['/pipeline'], { 
+        state: { project: this.selectedProject, isEditMode: true } 
+      });
+    }
+  }
+
+  deleteProject() {
+    if (confirm('Are you sure you want to delete this project?')) {
+      this.http.delete(`http://localhost:3000/projects/${this.selectedProject.id}`)
+        .subscribe({
+          next: () => {
+            this.selectedProject = null;
+            this.loadProjects();
+          },
+          error: (err) => {
+            console.error('Error deleting project:', err);
+          }
+        });
+    }
   }
 }

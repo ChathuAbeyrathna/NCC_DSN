@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pipeline',
@@ -9,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
   imports: [FormsModule, CommonModule],
   template: `
     <div class="container">
-      <h2>Add New Project</h2>
+      <h2>{{ isEditMode ? 'Edit Project' : 'Add New Project' }}</h2>
       <div class="form-container">
       <form (ngSubmit)="submitForm()">
         <label>Project Title:</label>
@@ -63,10 +64,10 @@ import { HttpClient } from '@angular/common/http';
         <label>Stage 2 Score:</label>
         <input type="number" [(ngModel)]="formData.stage2Score" name="stage2Score" />
 
-        <button type="submit">Submit</button>
-
-        <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
-      </form>
+        <button type="submit">{{ isEditMode ? 'Update' : 'Submit' }}</button>
+          <button *ngIf="isEditMode" type="button" (click)="cancelEdit()" class="cancel-button">Cancel</button>
+          <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+        </form>
       </div>
     </div>
   `,
@@ -145,7 +146,6 @@ import { HttpClient } from '@angular/common/http';
         padding: 10px 30px;
       }
     }
-
     @media (max-width: 480px) {
       .container {
         width: 80%;
@@ -168,9 +168,9 @@ import { HttpClient } from '@angular/common/http';
     `]
 })
 export class PipelineComponent {
-  constructor(private http: HttpClient) { }
-
-  formData = {
+  isEditMode: boolean = false;
+  formData: any = {
+    id: null,
     projectTitle: '',
     projectDescription: '',
     accreditedEntity: '',
@@ -192,13 +192,47 @@ export class PipelineComponent {
 
   successMessage: string = '';
 
+  constructor(private http: HttpClient, private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.isEditMode = true;
+      this.formData = { ...navigation.extras.state['project'] };
+    }
+  }
+
   submitForm() {
-    this.http.post('http://localhost:3000/projects', this.formData).subscribe(response => {
-      console.log('Project submitted:', response);
+    if (this.isEditMode) {
+      this.http.put(`http://localhost:3000/projects/${this.formData.id}`, this.formData)
+        .subscribe({
+          next: () => {
+            this.successMessage = 'Project updated successfully!';
+            setTimeout(() => this.router.navigate(['/projects']), 1500);
+          },
+          error: (err) => {
+            console.error('Error updating project:', err);
+          }
+        });
+    } else {
+      this.http.post('http://localhost:3000/projects', this.formData)
+        .subscribe({
+          next: () => {
+            this.successMessage = 'Project submitted successfully!';
+            this.resetForm();
+          },
+          error: (err) => {
+            console.error('Error submitting project:', err);
+          }
+        });
+    }
+  }
 
-      this.successMessage = 'Project submitted successfully!';
+  cancelEdit() {
+    this.router.navigate(['/projects']);
+  }
 
-      this.formData = {
+  resetForm() {
+    this.formData = {
+        id: null,
         projectTitle: '',
         projectDescription: '',
         accreditedEntity: '',
@@ -217,6 +251,5 @@ export class PipelineComponent {
         stage1Score: null,
         stage2Score: null
       };
-    });
+    };
   }
-}

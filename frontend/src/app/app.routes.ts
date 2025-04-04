@@ -15,4 +15,5 @@ export const routes: Routes = [
   { path: 'reports', component: ReportsComponent },
   { path: 'pipeline', component: PipelineComponent },
   { path: 'projects', component: ProjectsComponent },
+  { path: '', redirectTo: '/projects', pathMatch: 'full' }
 ];

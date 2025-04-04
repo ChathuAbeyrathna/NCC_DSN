@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ProjectsService } from './project.service';
 import { Project } from './project.entity';
 
@@ -14,5 +14,22 @@ export class ProjectsController {
   @Get()
   async getAllProjects(): Promise<Project[]> {
     return this.projectsService.getAllProjects();
+  }
+
+  @Put(':id')
+  async updateProject(
+    @Param('id') id: number,
+    @Body() projectData: Partial<Project>,
+  ): Promise<Project> {
+    const result = await this.projectsService.updateProject(id, projectData);
+    if (!result) {
+      throw new Error('Project not found');
+    }
+    return result;
+  }
+
+  @Delete(':id')
+  async deleteProject(@Param('id') id: number): Promise<void> {
+    return this.projectsService.deleteProject(id);
   }
 }
