@@ -3,13 +3,15 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { SidebarComponent } from './sidebar.component';
 
 @Component({
   selector: 'app-pipeline',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, SidebarComponent],
   template: `
     <div class="container">
+      <app-sidebar></app-sidebar>
       <h2>{{ isEditMode ? 'Edit Project' : 'Add New Project' }}</h2>
       <div class="form-container">
       <form (ngSubmit)="submitForm()">
@@ -75,6 +77,7 @@ import { Router } from '@angular/router';
     .container {
       width: 60%;
       margin: 2rem auto;
+      margin-right: 200px;
       font-family: Arial, sans-serif;
     }  
     .form-container{
@@ -232,24 +235,24 @@ export class PipelineComponent {
 
   resetForm() {
     this.formData = {
-        id: null,
-        projectTitle: '',
-        projectDescription: '',
-        accreditedEntity: '',
-        implementingAgencies: '',
-        projectDuration: '',
-        projectLocation: '',
-        sector: '',
-        focus: '',
-        gcfResultAreas: '',
-        gcfFinancing: null,
-        coFinancing: null,
-        overallFinancing: null,
-        financingInstruments: '',
-        status: '',
-        contactInfo: '',
-        stage1Score: null,
-        stage2Score: null
-      };
+      id: null,
+      projectTitle: '',
+      projectDescription: '',
+      accreditedEntity: '',
+      implementingAgencies: '',
+      projectDuration: '',
+      projectLocation: '',
+      sector: '',
+      focus: '',
+      gcfResultAreas: '',
+      gcfFinancing: null,
+      coFinancing: null,
+      overallFinancing: null,
+      financingInstruments: '',
+      status: '',
+      contactInfo: '',
+      stage1Score: null,
+      stage2Score: null
     };
-  }
+  };
+}

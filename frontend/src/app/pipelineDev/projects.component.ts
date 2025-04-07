@@ -3,15 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SidebarComponent } from './sidebar.component';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SidebarComponent],
   template: `
-    <div class="container">
+    <div class="main-container">     
+      <div class="container">
+      <app-sidebar></app-sidebar>
       <h2>Projects</h2>
-
       <div class="select-container">
         <div class="custom-select" [class.open]="isDropdownOpen" (clickOutside)="closeDropdown()">
           <div class="select-header" (click)="toggleDropdown()">
@@ -67,12 +69,17 @@ import { Router } from '@angular/router';
           <tr><th>Stage 2 Score</th><td>{{ selectedProject.stage2Score }}</td></tr>
         </table>
       </div>
+      </div>
     </div>
   `,
   styles: [`
+    .main-container{
+      display: flex;
+    }
     .container {
       width: 80%;
-      margin: 2rem auto;
+      margin: 2px auto;
+      margin-right: 20px;
       font-family: Arial, sans-serif;
     }
     h2 {
@@ -195,7 +202,7 @@ export class ProjectsComponent implements OnInit {
   isDropdownOpen: boolean = false;
   searchTerm: string = '';
 
-  constructor(private http: HttpClient, private router: Router) { } 
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
     this.loadProjects();
@@ -229,8 +236,8 @@ export class ProjectsComponent implements OnInit {
 
   editProject() {
     if (this.selectedProject) {
-      this.router.navigate(['/pipeline'], { 
-        state: { project: this.selectedProject, isEditMode: true } 
+      this.router.navigate(['/pipeline'], {
+        state: { project: this.selectedProject, isEditMode: true }
       });
     }
   }
