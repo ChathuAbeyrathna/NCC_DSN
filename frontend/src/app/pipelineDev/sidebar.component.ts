@@ -117,7 +117,7 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class SidebarComponent {
-    dropdownOpen = true; // keep it open by default if you like
+    dropdownOpen = true; 
 
     toggleDropdown() {
         this.dropdownOpen = !this.dropdownOpen;
